@@ -22,7 +22,10 @@
                     @foreach (var course in termWithCourses.Courses)
                     {
                         <li class="list-group-item">
-                            <strong>@course.Name</strong> - @course.Status
+                            <a href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
+                                <strong>@course.Name</strong>
+                            </a>
+                            - @course.Status
                             <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(@course.Id)">View Details</button>
                         </li>
                     }
@@ -92,17 +95,23 @@
         margin-bottom: 20px;
     }
 
-    .term-link {
+    .term-link, .course-link {
         text-decoration: none; /* Remove underline */
         color: black; /* Set text color to black */
     }
 
-        .term-link:hover, .term-link:focus {
+        .term-link:hover, .term-link:focus,{
             text-decoration: none; /* Remove underline on hover/focus */
-            color: black; /* Keep text color black on hover/focus */
+            color: black /* Change color on hover/focus */
         }
 
-    .caret {
+        .course-link:hover, .course-link:focus {
+            text-decoration: none;
+            color: #353935;
+            font-weight: 900; /* Changes text to bold */
+        }
+
+        .caret {
         display: inline-block;
         width: 0;
         height: 0;
