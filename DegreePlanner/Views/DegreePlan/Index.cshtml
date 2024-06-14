@@ -98,20 +98,22 @@
     .term-link, .course-link {
         text-decoration: none; /* Remove underline */
         color: black; /* Set text color to black */
+        transition: color 0.3s, font-size 0.3s, letter-spacing 0.3s; /* Add transition for color, font-size, and letter-spacing */
     }
 
-        .term-link:hover, .term-link:focus,{
+        .term-link:hover, .term-link:focus {
             text-decoration: none; /* Remove underline on hover/focus */
-            color: black /* Change color on hover/focus */
+            color: black; /* Change color on hover/focus */
         }
 
         .course-link:hover, .course-link:focus {
             text-decoration: none;
             color: #353935;
-            font-weight: 900; /* Changes text to bold */
+            font-size: 1.1em; /* Increase font-size slightly more */
+            letter-spacing: 0.7px; /* Increase letter-spacing slightly more */
         }
 
-        .caret {
+    .caret {
         display: inline-block;
         width: 0;
         height: 0;
@@ -120,6 +122,7 @@
         border-top: 4px solid;
         border-right: 4px solid transparent;
         border-left: 4px solid transparent;
+        transition: transform 0.3s; /* Add transition for caret rotation */
     }
 
     .rotate {
