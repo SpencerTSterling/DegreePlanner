@@ -24,6 +24,15 @@ namespace DegreePlanner.Controllers
         {
             return View();
         }
+
+
+        #region Upsert (Update/Insert)
+
+
+
+        #endregion
+
+
         // Creating a Term
         [HttpPost]
         public IActionResult Create(Term obj)
