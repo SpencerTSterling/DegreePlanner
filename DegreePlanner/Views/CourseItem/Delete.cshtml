@@ -1,0 +1,57 @@
+﻿@model CourseItem
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete Course Item</h2>
+            <hr />
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" type="text" disabled class="form-control" />
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" type="text" disabled class="form-control"></textarea>
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="DueDate" class="p-0"></label>
+            <input asp-for="DueDate" type="date" disabled class="form-control" />
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="IsCompleted" class="control-label"></label>
+            <input asp-for="IsCompleted" type="checkbox" disabled class="form-check-input" />
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="Type" class="control-label"></label>
+            <select asp-for="Type" disabled class="form-control">
+                <option value="To-Do">To-Do</option>
+                <option value="Assignment">Assignment</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Project">Project</option>
+                <option value="Exam">Exam</option>
+                <option value="Lecture">Lecture</option>
+                <option value="Lab">Lab</option>
+                <option value="Reading">Reading</option>
+                <option value="Discussion">Discussion</option>
+                <option value="Homework">Homework</option>
+                <option value="Practice">Practice</option>
+                <option value="Extra Credit">Extra Credit</option>
+            </select>
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="CourseId">Course</label>
+            <select asp-for="CourseId" disabled class="form-select" asp-items="ViewBag.CourseList"></select>
+        </div>
+        <button type="submit" class="btn btn-danger" style="width:150px">Delete Course Item</button>
+        <a asp-controller="CourseItem" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+    </div>
+</form>
+
+<!-- Validation Script-->
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+        // client-side validation
+    }
+}

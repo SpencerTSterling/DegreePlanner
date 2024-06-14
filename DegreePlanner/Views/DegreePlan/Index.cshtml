@@ -1,0 +1,68 @@
+﻿@model DegreePlanVM
+
+<div>
+    @foreach (var termWithCourses in Model.TermsWithCourses)
+    {
+        <div class="term-section">
+            <h3>
+                @termWithCourses.Term.Name |
+                @termWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to
+                @termWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")
+                <span class="caret"></span>
+            </h3>
+            <ul class="list-group">
+                @foreach (var course in termWithCourses.Courses)
+                {
+                    <li class="list-group-item">
+                        <strong>@course.Name</strong> - @course.Status
+                        <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(@course.Id)">View Details</button>
+                    </li>
+                }
+            </ul>
+        </div>
+        <hr />
+    }
+</div>
+
+<!-- Modal for displaying course details -->
+<div id="courseDetailsModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Course Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Course details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function viewCourseDetails(courseId) {
+            $.get('@Url.Action("CourseDetails", "DegreePlan")', { id: courseId })
+                .done(function (data) {
+                    $('#courseDetailsModal .modal-body').html(data);
+                    $('#courseDetailsModal').modal('show');
+                })
+                .fail(function () {
+                    console.error('Failed to load course details.');
+                });
+        }
+    </script>
+}
+
+<style>
+    .term-section {
+        margin-bottom: 20px;
+    }
+</style>

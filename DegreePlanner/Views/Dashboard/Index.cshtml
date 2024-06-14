@@ -1,0 +1,58 @@
+﻿@model DashboardVM
+
+<div>
+    <label for="termId">Select Term:</label>
+    <select id="termId">
+        @foreach (var term in Model.TermsList)
+        {
+            <option value="@term.Id">@term.Name</option>
+        }
+    </select>
+</div>
+
+<div id="courseContainer">
+    <!-- Courses will be loaded here -->
+</div>
+
+<div id="courseItems">
+    <!-- Course item list will be dynamically populated here -->
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#termId').change(function () {
+                var termId = $(this).val();
+                if (termId !== '') {
+                    $.get('@Url.Action("GetCoursesByTerm", "Dashboard")', { termId: termId })
+                        .done(function (data) {
+                            $('#courseContainer').html(data);
+                        })
+                        .fail(function () {
+                            console.error('Failed to load courses.');
+                        });
+
+                    $.get('@Url.Action("GetCourseItemsByTerm", "Dashboard")', { termId: termId })
+                        .done(function (data) {
+                            $('#courseItems').html(data);
+                        })
+                        .fail(function () {
+                            console.error('Failed to load course items.');
+                        });
+
+                } else {
+                    $('#courseContainer').empty();
+                    $('#courseItems').empty()
+                }
+            });
+
+            // Trigger change event to load default term's courses on page load
+            $('#termId').trigger('change');
+        });
+
+        function viewCourseDetails(courseId) {
+            window.location.href = '@Url.Action("Detail", "Course")' + '/' + courseId;
+        }
+    </script>
+}

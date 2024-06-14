@@ -1,0 +1,72 @@
+﻿@model CourseItemVM
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">@(Model.CourseItem.Id != 0 ? "Update" : "Add") Course Item</h2>
+            <hr />
+        </div>
+        <input asp-for="CourseItem.Id" hidden />
+        <div class="mb-3 row p-1">
+            <label asp-for="CourseItem.Name"></label>
+            <input asp-for="CourseItem.Name" type="text" class="form-control" />
+            <span asp-validation-for="CourseItem.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="CourseItem.Description"></label>
+            <input asp-for="CourseItem.Description" type="text" class="form-control" />
+            <span asp-validation-for="CourseItem.Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="CourseItem.DueDate" class="p-0"></label>
+            <input asp-for="CourseItem.DueDate" type="date" class="form-control" />
+            <span asp-validation-for="CourseItem.DueDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="CourseItem.IsCompleted" class="control-label"></label>
+            <input asp-for="CourseItem.IsCompleted" type="checkbox" class="form-check-input" />
+            <span asp-validation-for="CourseItem.IsCompleted" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="CourseItem.Type" class="control-label"></label>
+            <select asp-for="CourseItem.Type" type="text" class="form-control" >
+                <option value="To-Do">To-Do</option>
+                <option value="Assignment">Assignment</option>
+                <option value="Quiz">Quiz</option>
+                <option value="Project">Project</option>
+                <option value="Exam">Exam</option>
+                <option value="Lecture">Lecture</option>
+                <option value="Lab">Lab</option>
+                <option value="Reading">Reading</option>
+                <option value="Discussion">Discussion</option>
+                <option value="Homework">Homework</option>
+                <option value="Practice">Practice</option>
+                <option value="Extra Credit">Extra Credit</option>
+            </select>
+            <span asp-validation-for="CourseItem.Type" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="CourseItem.CourseId">Course</label>
+            <select asp-for="CourseItem.CourseId" class="form-select" asp-items="@Model.CourseList"></select>
+            <span asp-validation-for="CourseItem.CourseId" class="text-danger"></span>
+        </div>
+
+        @if (Model.CourseItem.Id != 0)
+        {
+            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary" style="width:150px">Add</button>
+        }
+        <a asp-controller="CourseItem" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+    </div>
+</form>
+
+<!-- Scripts -->
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+        // client-side validation
+    }
+}

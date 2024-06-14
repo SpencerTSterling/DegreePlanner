@@ -1,0 +1,31 @@
+﻿@model CourseDetailVM
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@Model.Course.Name</h2>
+            <p>@Html.Raw(@Model.Course.Description)</p>
+            <p><strong>Term:</strong> @Model.Course.Term.Name</p>
+            <hr />
+            <h3>Course Items</h3>
+            @if (Model.CourseItems != null && Model.CourseItems.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var item in Model.CourseItems)
+                    {
+                        <li class="list-group-item @(item.DueDate.HasValue && item.DueDate < DateTime.Now ? "list-group-item-danger" : "")">
+                            <h5>@item.Name</h5>
+                            <p>@Html.Raw(@item.Description)</p>
+                            <p>Due Date: @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "No due date")</p>
+                            <p>Type: @item.Type</p>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No course items available.</p>
+            }
+        </div>
+    </div>
+</div>

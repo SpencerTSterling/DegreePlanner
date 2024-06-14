@@ -1,0 +1,77 @@
+﻿@model CourseVM
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">@(Model.Course.Id!=0?"Update":"Add") Course</h2>
+            <hr />
+        </div>
+        <input asp-for="Course.Id" hidden />
+        <div class="mb-3 row p-1">
+            <label asp-for="Course.Name"></label>
+            <input asp-for="Course.Name" type="text" class="form-control" />
+            <span asp-validation-for="Course.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Course.Description"></label>
+            <textarea asp-for="Course.Description" type="text" class="form-control"></textarea>
+            <span asp-validation-for="Course.Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Course.StartDate" class="p-0"></label>
+            <input asp-for="Course.StartDate" type="date" class="form-control" />
+            <span asp-validation-for="Course.StartDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3 row p-1">
+            <label asp-for="Course.EndDate" class="p-0"></label>
+            <input asp-for="Course.EndDate" type="date" class="form-control" />
+            <span asp-validation-for="Course.EndDate" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="Course.Status" class="control-label"></label>
+            <select asp-for="Course.Status" class="form-control">
+                <option value="Active">Active</option>
+                <option value="Planned">Planned</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <span asp-validation-for="Course.Status" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3 row p-1">
+            <label asp-for="Course.TermId">Term</label>
+            <select asp-for="Course.TermId" class="form-select" asp-items="@Model.TermList"></select>
+            <span asp-validation-for="Course.TermId" class="text-danger"></span>
+        </div>
+
+        @if(Model.Course.Id != 0)
+        {
+            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary" style="width:150px">Add</button>
+        }
+        <a asp-controller="Course" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+    </div>
+</form>
+
+<!-- Scripts -->
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons link lists visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker tinymcespellchecker permanentpen powerpaste autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media | spellcheckdialog | align lineheight | checklist numlist bullist indent outdent | emoticons charmap',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+        // client-side validation
+    }
+}

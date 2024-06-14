@@ -1,0 +1,9 @@
+﻿@model DegreePlanner.Models.Course
+
+<div>
+    <h3>@Model.Name</h3>
+    <p>Status: @Model.Status</p>
+    <p>Start Date: @Model.StartDate.ToString("yyyy-MM-dd")</p>
+    <p>End Date: @Model.EndDate.ToString("yyyy-MM-dd")</p>
+    <p>Description: @Html.Raw(@Model.Description)</p>
+</div>

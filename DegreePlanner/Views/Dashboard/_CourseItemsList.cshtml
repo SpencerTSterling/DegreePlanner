@@ -1,0 +1,19 @@
+﻿@model IEnumerable<DegreePlanner.Models.CourseItem>
+
+@if (Model != null && Model.Any())
+{
+    <ul class="list-group">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item @(item.DueDate.HasValue && item.DueDate < DateTime.Now ? "list-group-item-danger" : "")">
+                <span class="course-item-type">@item.Type</span> - <span class="course-item-name">@item.Name</span>
+                <br />
+                <span class="course-item-due-date">Due Date: @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "No due date")</span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No course items available.</p>
+}

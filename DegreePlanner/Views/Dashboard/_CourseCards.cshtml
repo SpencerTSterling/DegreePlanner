@@ -1,0 +1,20 @@
+﻿@model IEnumerable<DegreePlanner.Models.Course>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var course in Model)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@course?.Name</h5>
+                <p class="card-text">Status: @course?.Status</p>
+                <!-- Add more details as needed -->
+                <button class="btn btn-primary" onclick="viewCourseDetails(@course.Id)">View Details</button>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>No courses available for this term.</p>
+}
