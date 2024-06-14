@@ -119,6 +119,8 @@ namespace DegreePlanner.Controllers
             return View(viewModel);
         }
 
+        #endregion
+
         #region Delete/Remove Course
         public IActionResult Delete(int? id)
         {

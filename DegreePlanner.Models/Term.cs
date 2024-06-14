@@ -8,9 +8,7 @@ namespace DegreePlanner.Models
         [Key]
         public int Id { get; set; }
         [Required, DisplayName("Term Name"), MaxLength(30)]
-
-
-        public required string Name { get; set; }
+        public string Name { get; set; }
         [Required(ErrorMessage = "Start date is required"), DisplayName("Start Date")]
         [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }

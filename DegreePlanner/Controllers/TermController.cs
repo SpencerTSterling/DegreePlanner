@@ -1,6 +1,7 @@
 ﻿using capstone.DegreePlanner.DataAccess.Data;
 using DegreePlanner.DataAccess.Repository.IRepository;
 using DegreePlanner.Models;
+using DegreePlanner.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DegreePlanner.Controllers
@@ -19,19 +20,72 @@ namespace DegreePlanner.Controllers
             return View(objTermList);
         }
 
+
+
+        #region Upsert (Update/Insert)
+
+        public IActionResult Upsert(int? id)
+        {
+            TermVM termVM = new()
+            {
+                Term = new Term()
+            };
+            if (id == null || id == 0) // if ID doesn't exist
+            {
+                //Create
+                return View(termVM);
+            }
+            else
+            {
+                //Update
+                termVM.Term = _uow.Term.Get(u => u.Id == id);
+                return View(termVM);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult Upsert(TermVM termVM)
+        {
+            // Date validation
+            if (termVM.Term.StartDate > termVM.Term.EndDate)
+            {
+                ModelState.AddModelError("StartDate", "Start date cannot be later than end date.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (termVM.Term.Id == 0)
+                {
+                    // Add a new term
+                    _uow.Term.Add(termVM.Term);
+                    TempData["success"] = "Term added successfully";
+                }
+                else
+                {
+                    // Update an existing term
+                    _uow.Term.Update(termVM.Term);
+                    _uow.Save();
+                    // Success notification 
+                    TempData["success"] = "Term updated successfully";
+                }
+
+                _uow.Save();
+                // Return to list page
+                return RedirectToAction("Index", "DegreePlan");
+            }
+            //If model state is not valid
+            return View(termVM);
+        }
+
+        #endregion
+
+
         #region Create/Add Term
         public IActionResult Create()
         {
             return View();
         }
-
-
-        #region Upsert (Update/Insert)
-
-
-
-        #endregion
-
 
         // Creating a Term
         [HttpPost]
