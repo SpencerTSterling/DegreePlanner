@@ -22,6 +22,11 @@ namespace DegreePlanner.DataAccess.Repository
             // ex. _db.Terms == dbSet
         }
 
+        public void Update(T entity)
+        {
+            dbSet.Update(entity);
+        }
+
         public void Add(T entity)
         {
             dbSet.Add(entity);
