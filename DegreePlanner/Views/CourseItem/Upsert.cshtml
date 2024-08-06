@@ -29,20 +29,7 @@
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="CourseItem.Type" class="control-label"></label>
-            <select asp-for="CourseItem.Type" type="text" class="form-control" >
-                <option value="To-Do">To-Do</option>
-                <option value="Assignment">Assignment</option>
-                <option value="Quiz">Quiz</option>
-                <option value="Project">Project</option>
-                <option value="Exam">Exam</option>
-                <option value="Lecture">Lecture</option>
-                <option value="Lab">Lab</option>
-                <option value="Reading">Reading</option>
-                <option value="Discussion">Discussion</option>
-                <option value="Homework">Homework</option>
-                <option value="Practice">Practice</option>
-                <option value="Extra Credit">Extra Credit</option>
-            </select>
+            <select asp-for="CourseItem.Type" class="form-control" asp-items="@Model.TypeList"></select>
             <span asp-validation-for="CourseItem.Type" class="text-danger"></span>
         </div>
         <div class="form-group mb-3 row p-1">

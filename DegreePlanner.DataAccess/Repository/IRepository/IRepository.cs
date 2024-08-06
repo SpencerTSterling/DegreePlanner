@@ -9,7 +9,9 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        // T - Term, Course, CourseItem, Assessment
+        // T - Term, Course, CourseItem
+
+        void Update(T entity);
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
         // For link expressions in FirstOrDefault() methods
         T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);

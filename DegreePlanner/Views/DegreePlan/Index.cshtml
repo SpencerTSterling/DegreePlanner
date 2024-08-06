@@ -1,24 +1,36 @@
-﻿@model DegreePlanVM
+﻿@model DegreePlanner.Models.ViewModels.DegreePlanVM
 
 <div>
+    <div class="mb-3">
+        <button id="expandAll" class="btn btn-info btn-sm">Expand All</button>
+        <button id="collapseAll" class="btn btn-dark btn-sm">Collapse All</button>
+    </div>
+
     @foreach (var termWithCourses in Model.TermsWithCourses)
     {
         <div class="term-section">
             <h3>
-                @termWithCourses.Term.Name |
-                @termWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to
-                @termWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")
-                <span class="caret"></span>
+                <a class="term-link" data-toggle="collapse" href="#termCourses-@termWithCourses.Term.Id" aria-expanded="false" aria-controls="termCourses-@termWithCourses.Term.Id">
+                    @termWithCourses.Term.Name |
+                    @termWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to
+                    @termWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")
+                    <span class="caret"></span>
+                </a>
             </h3>
-            <ul class="list-group">
-                @foreach (var course in termWithCourses.Courses)
-                {
-                    <li class="list-group-item">
-                        <strong>@course.Name</strong> - @course.Status
-                        <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(@course.Id)">View Details</button>
-                    </li>
-                }
-            </ul>
+            <div class="collapse" id="termCourses-@termWithCourses.Term.Id">
+                <ul class="list-group">
+                    @foreach (var course in termWithCourses.Courses)
+                    {
+                        <li class="list-group-item">
+                            <a href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
+                                <strong>@course.Name</strong>
+                            </a>
+                            - @course.Status
+                            <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(@course.Id)">View Details</button>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
         <hr />
     }
@@ -58,11 +70,62 @@
                     console.error('Failed to load course details.');
                 });
         }
+
+        // Add caret rotation for expanded/collapsed state
+        $(document).ready(function () {
+            $('.collapse').on('show.bs.collapse', function () {
+                $(this).prev().find('.caret').addClass('rotate');
+            }).on('hide.bs.collapse', function () {
+                $(this).prev().find('.caret').removeClass('rotate');
+            });
+
+            $('#expandAll').click(function () {
+                $('.collapse').collapse('show');
+            });
+
+            $('#collapseAll').click(function () {
+                $('.collapse').collapse('hide');
+            });
+        });
     </script>
 }
 
 <style>
     .term-section {
         margin-bottom: 20px;
+    }
+
+    .term-link, .course-link {
+        text-decoration: none; /* Remove underline */
+        color: black; /* Set text color to black */
+        transition: color 0.3s, font-size 0.3s, letter-spacing 0.3s; /* Add transition for color, font-size, and letter-spacing */
+    }
+
+        .term-link:hover, .term-link:focus {
+            text-decoration: none; /* Remove underline on hover/focus */
+            color: black; /* Change color on hover/focus */
+        }
+
+        .course-link:hover, .course-link:focus {
+            text-decoration: none;
+            color: #353935;
+            font-size: 1.1em; /* Increase font-size slightly more */
+            letter-spacing: 0.7px; /* Increase letter-spacing slightly more */
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 5px;
+        vertical-align: middle;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        transition: transform 0.3s; /* Add transition for caret rotation */
+    }
+
+    .rotate {
+        transform: rotate(90deg);
     }
 </style>
