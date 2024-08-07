@@ -12,7 +12,6 @@ namespace capstone.DegreePlanner.DataAccess.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseItem> CourseItems { get; set; }

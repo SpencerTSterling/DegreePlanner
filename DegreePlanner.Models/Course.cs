@@ -19,12 +19,9 @@ namespace DegreePlanner.Models
         public DateTime EndDate { get; set; }
         [Required]
         public string Status { get; set; }
-        public int? FacultyId { get; set; } // Foreign key
 
         [ForeignKey("TermId")]
         public Term Term { get; set; } // Navigation property
-        [ForeignKey("FacultyId")]
-        public Faculty? Faculty { get; set; } // Navigation property
         public ICollection<CourseItem>? CourseItems { get; set; }
     }
 }
