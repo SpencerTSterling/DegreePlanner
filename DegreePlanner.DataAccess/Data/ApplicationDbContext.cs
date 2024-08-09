@@ -1,10 +1,12 @@
 ﻿using DegreePlanner.DataAccess.Repository;
 using DegreePlanner.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace capstone.DegreePlanner.DataAccess.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -12,7 +14,6 @@ namespace capstone.DegreePlanner.DataAccess.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Faculty> Faculties { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseItem> CourseItems { get; set; }
@@ -20,6 +21,8 @@ namespace capstone.DegreePlanner.DataAccess.Data
         // Seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Create this default Term
             modelBuilder.Entity<Term>().HasData(
                 new Term

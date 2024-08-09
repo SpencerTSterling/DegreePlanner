@@ -8,5 +8,9 @@ namespace DegreePlanner.Utility
 {
     public static class StaticDetails
     {
+
+        public const string Role_Student = "Student";
+        public const string Role_Admin = "Admin";
+
     }
 }

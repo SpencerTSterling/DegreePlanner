@@ -2,6 +2,9 @@ using capstone.DegreePlanner.DataAccess.Data;
 using DegreePlanner.DataAccess.Repository;
 using DegreePlanner.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using DegreePlanner.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +15,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add Identity / Roles 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+//Add Razor pages
+builder.Services.AddRazorPages();
 // Repositories:
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Email Sender - NOTE: Not functional at this time.
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
@@ -30,7 +42,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+app.MapRazorPages(); // Mapping the Razor pages associated w/ Identity
 
 app.MapControllerRoute(
     name: "default",
