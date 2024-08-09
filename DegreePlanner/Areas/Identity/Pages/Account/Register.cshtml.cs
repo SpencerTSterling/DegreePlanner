@@ -113,7 +113,7 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
                 // if Role does not exist, create the Student and Admin Roles
                 _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Student)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin)).GetAwaiter().GetResult();
-            }
+            };
 
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
