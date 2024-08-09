@@ -20,6 +20,8 @@ namespace capstone.DegreePlanner.DataAccess.Data
         // Seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Create this default Term
             modelBuilder.Entity<Term>().HasData(
                 new Term

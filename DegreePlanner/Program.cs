@@ -2,6 +2,7 @@ using capstone.DegreePlanner.DataAccess.Data;
 using DegreePlanner.DataAccess.Repository;
 using DegreePlanner.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddControllersWithViews();
 // Configure DB Context and EntityFrameworkCore
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Repositories:
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
