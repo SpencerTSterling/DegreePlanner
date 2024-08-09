@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace DegreePlanner.Models
 {
-    public class User
+    public class User:IdentityUser
     {
         [Key]
         public int Id { get; set; }
@@ -10,10 +11,6 @@ namespace DegreePlanner.Models
         public required string FirstName { get; set; }
         [Required]
         public required string LastName { get; set; }
-        [Required, EmailAddress]
-        public required string Email { get; set; }
-        [Required]
-        public required string Password { get; set; }
         public string Major { get; set; } = "Undecided";
     }
 }
