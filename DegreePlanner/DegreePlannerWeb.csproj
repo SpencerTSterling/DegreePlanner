@@ -23,4 +23,8 @@
     <ProjectReference Include="..\DegreePlanner.DataAccess\DegreePlanner.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
+  </ItemGroup>
+
 </Project>
