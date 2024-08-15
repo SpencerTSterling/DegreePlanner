@@ -22,6 +22,25 @@ namespace capstone.DegreePlanner.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //// Create default user
+            string userId = "1"; // ID
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = userId,
+                    UserName = "studenttester1@gmail.com",
+                    NormalizedUserName = "STUDENTTESTER1@GMAIL.COM",
+                    Email = "studenttester1@gmail.com",
+                    NormalizedEmail = "STUDENTTESTER1@GMAIL.COM",
+                    EmailConfirmed = false,
+                    PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
+                    SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
+                    FirstName = "",
+                    LastName = ""
+                }
+            );
+
+
             // Create this default Term
             modelBuilder.Entity<Term>().HasData(
                 new Term
@@ -31,7 +50,7 @@ namespace capstone.DegreePlanner.DataAccess.Data
                         StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
                         EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
 
-                        UserId = "9a59c8a6-5231-4647-96cb-b3fe84a85dfe" // ID of the user studenttester1@gmail.com
+                        UserId = userId
                 }
                 );
         }
