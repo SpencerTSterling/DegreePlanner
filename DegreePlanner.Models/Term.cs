@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DegreePlanner.Models
 {
@@ -8,6 +9,7 @@ namespace DegreePlanner.Models
         [Key]
         public int Id { get; set; }
         [Required, DisplayName("Term Name"), MaxLength(30)]
+
         public string Name { get; set; }
         [Required(ErrorMessage = "Start date is required"), DisplayName("Start Date")]
         [DataType(DataType.Date)]
@@ -20,6 +22,15 @@ namespace DegreePlanner.Models
 
         // Navigation property for related courses
         public ICollection<Course>? Courses { get; set; }
+
+
+        // Foreign key for the User
+        [Required] // Make it required to ensure a Term is always linked to a User
+        public string UserId { get; set; }
+
+        // Navigation property for the User
+        [ForeignKey("UserId")]
+        public User User { get; set; }
 
     }
 }
