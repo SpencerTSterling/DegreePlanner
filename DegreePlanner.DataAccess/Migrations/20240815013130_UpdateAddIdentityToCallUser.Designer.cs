@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using capstone.DegreePlanner.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using capstone.DegreePlanner.DataAccess.Data;
 namespace DegreePlanner.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240815013130_UpdateAddIdentityToCallUser")]
+    partial class UpdateAddIdentityToCallUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,7 +218,7 @@ namespace DegreePlanner.DataAccess.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3bdcbf08-f9d8-4648-bbad-a1e3a1692af7",
+                            ConcurrencyStamp = "873df54c-8b7e-4a45-8d9c-dd466167bf1b",
                             Email = "studenttester1@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "",

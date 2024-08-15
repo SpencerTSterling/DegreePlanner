@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace capstone.DegreePlanner.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -17,7 +17,7 @@ namespace capstone.DegreePlanner.DataAccess.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseItem> CourseItems { get; set; }
 
-        // Seeding data
+        // Seeding datas
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

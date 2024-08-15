@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using DegreePlanner.Utility;
+using DegreePlanner.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+
 
 // Configure DB Context and EntityFrameworkCore
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
@@ -21,6 +22,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 //Add Razor pages
 builder.Services.AddRazorPages();
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 // Repositories:
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
