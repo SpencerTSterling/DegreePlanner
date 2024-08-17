@@ -81,6 +81,24 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+
+            /// The fields extended by the model User 
+            /// 
+            [Required]
+            [Display(Name ="First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Major")]
+            public string? Major { get; set; } = "Undecided";
+
+
+            ///
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
