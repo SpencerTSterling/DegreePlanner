@@ -16,6 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options=> 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+// Add Identity / Roles 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 // Paths
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -25,10 +32,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
-// Add Identity / Roles 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 //Add Razor pages
 builder.Services.AddRazorPages();
 // Add services to the container.
