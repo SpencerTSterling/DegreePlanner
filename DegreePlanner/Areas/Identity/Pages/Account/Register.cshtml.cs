@@ -164,6 +164,11 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
             {
                 var user = CreateUser(); // Creates instance of User instead of IdentityUser
 
+                //Set custom User properties extended by Identity
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.Major = Input.Major;
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
