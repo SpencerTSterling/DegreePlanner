@@ -85,11 +85,11 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
 
             /// The fields extended by the model User 
             /// 
-            [Required]
+            [Required(ErrorMessage = "First Name is required")]
             [Display(Name ="First Name")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Last Name is required")]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 

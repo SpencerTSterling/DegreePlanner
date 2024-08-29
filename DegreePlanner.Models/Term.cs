@@ -25,11 +25,11 @@ namespace DegreePlanner.Models
 
 
         // Foreign key for the User
-        [Required] // Make it required to ensure a Term is always linked to a User
+        [Required]
+        [ForeignKey("UserId")]// Make it required to ensure a Term is always linked to a User
         public string UserId { get; set; }
 
         // Navigation property for the User
-        [ForeignKey("UserId")]
         public User User { get; set; }
 
     }
