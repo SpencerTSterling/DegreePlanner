@@ -81,6 +81,24 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+
+            /// The fields extended by the model User 
+            /// 
+            [Required(ErrorMessage = "First Name is required")]
+            [Display(Name ="First Name")]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessage = "Last Name is required")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Major")]
+            public string? Major { get; set; } = "Undecided";
+
+
+            ///
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -144,7 +162,12 @@ namespace DegreePlannerWeb.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = CreateUser(); // Creates instance of User instead of IdentityUser
+
+                //Set custom User properties extended by Identity
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.Major = Input.Major;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
