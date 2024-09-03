@@ -2,21 +2,30 @@
 using DegreePlanner.DataAccess.Repository.IRepository;
 using DegreePlanner.Models;
 using DegreePlanner.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DegreePlanner.Controllers
 {
+    [Authorize] // Ensure only logged-in users can access these actions
     public class TermController : Controller
     {
         private readonly IUnitOfWork _uow; //unit of work
-        public TermController(IUnitOfWork unitOfWork)
+        private readonly UserManager<IdentityUser> _userManager; // inject UserManager
+        public TermController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         { 
             _uow = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            List<Term> objTermList = _uow.Term.GetAll().ToList();
+            // Get logged in user's ID
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch terms only assocaited with the logged in user
+            List<Term> objTermList = _uow.Term.GetAll(u => u.UserId == userId).ToList();
             return View(objTermList);
         }
 
@@ -53,21 +62,37 @@ namespace DegreePlanner.Controllers
                 ModelState.AddModelError("StartDate", "Start date cannot be later than end date.");
             }
 
+            // If all feilds are valid: 
             if (ModelState.IsValid)
             {
+                // Get the logged-in user's ID
+                var userId = _userManager.GetUserId(User);
+
                 if (termVM.Term.Id == 0)
                 {
+                    // Set the UserId for the new Term
+                    termVM.Term.UserId = userId;
+
                     // Add a new term
                     _uow.Term.Add(termVM.Term);
                     TempData["success"] = "Term added successfully";
                 }
                 else
                 {
-                    // Update an existing term
-                    _uow.Term.Update(termVM.Term);
-                    _uow.Save();
-                    // Success notification 
-                    TempData["success"] = "Term updated successfully";
+                    // Ensure the UserId is not modified during updates
+                    var existingTerm = _uow.Term.Get(u => u.Id == termVM.Term.Id);
+
+                    if (existingTerm != null && existingTerm.UserId == userId)// if the existing term exists & matches User ID
+                    {
+                        // Update only if the term belongs to the logged-in user
+                        _uow.Term.Update(termVM.Term);
+                        TempData["success"] = "Term updated successfully";
+                    }
+                    else
+                    {
+                        return Forbid();
+                    }
+
                 }
 
                 _uow.Save();
