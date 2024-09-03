@@ -1,22 +1,31 @@
 ﻿using DegreePlanner.DataAccess.Repository.IRepository;
+using DegreePlanner.Models;
 using DegreePlanner.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DegreePlannerWeb.Controllers
 {
+    [Authorize] // Ensure only logged-in users can access these actions
     public class DegreePlanController : Controller
     {
         private readonly IUnitOfWork _uow;
+        private readonly UserManager<IdentityUser> _userManager; // inject UserManager
 
-        public DegreePlanController(IUnitOfWork unitOfWork)
+        public DegreePlanController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         {
             _uow = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            // Get all the terms ordered by their start date
-            var terms = _uow.Term.GetAll().OrderBy(t => t.StartDate);
+            // Get logged in user's ID
+            var userId = _userManager.GetUserId(User);
+            // Get all the terms belonging to the logged-in user, ordered by their start date
+            var terms = _uow.Term.GetAll(t => t.UserId == userId).OrderBy(t => t.StartDate);
+
             // Create a list of TermsWithCourses view model 
             var termsWithCourses = terms.Select(term => new TermWithCourses
             {
