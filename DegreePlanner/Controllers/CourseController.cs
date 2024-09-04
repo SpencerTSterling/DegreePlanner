@@ -1,8 +1,10 @@
 ﻿using capstone.DegreePlanner.DataAccess.Data;
+using DegreePlanner.DataAccess.Repository;
 using DegreePlanner.DataAccess.Repository.IRepository;
 using DegreePlanner.Models;
 using DegreePlanner.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,14 +14,22 @@ namespace DegreePlanner.Controllers
     public class CourseController : Controller
     {
         private readonly IUnitOfWork _uow; //unit of work
-        public CourseController(IUnitOfWork unitOfWork)
+        private readonly UserManager<IdentityUser> _userManager; // Inject UserManager
+
+
+        public CourseController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         { 
             _uow = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            List<Course> objCourseList = _uow.Course.GetAll(includeProperties: "Term").ToList();
+            // Get logged in user's ID
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch courses only associated with the logged in user
+            List<Course> objCourseList = _uow.Course.GetAll(c => c.Term.UserId == userId, includeProperties: "Term").ToList();
             return View(objCourseList);
         }
 
@@ -27,10 +37,13 @@ namespace DegreePlanner.Controllers
         #region Upsert (Update/Insert)
         public IActionResult Upsert(int? id)
         {
+            var userId = _userManager.GetUserId(User);
+
 
             CourseVM courseVM = new()
             {
-                TermList = _uow.Term.GetAll().Select(u => new SelectListItem
+                // Filter terms belonging to the logged-in user
+                TermList = _uow.Term.GetAll(t => t.UserId == userId).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -45,15 +58,21 @@ namespace DegreePlanner.Controllers
             else
             {
                 // Update
-                courseVM.Course = _uow.Course.Get(u => u.Id == id);
+                courseVM.Course = _uow.Course.Get(u => u.Id == id && u.Term.UserId == userId);
+                if (courseVM.Course == null)
+                {
+                    return Forbid(); // Prevent users from editing others' courses
+                }
                 return View(courseVM);
             }
         }
         [HttpPost]
         public IActionResult Upsert(CourseVM courseVM)
         {
-            // Get the Term selection
-            Term selectedTerm = _uow.Term.Get(t => t.Id == courseVM.Course.TermId);
+            var userId = _userManager.GetUserId(User);
+
+            // Get the Term selection (ensure it belongs to the logged in user)
+            Term selectedTerm = _uow.Term.Get(t => t.Id == courseVM.Course.TermId && t.UserId == userId);
 
             // Date validation
             if (courseVM.Course.StartDate > courseVM.Course.EndDate)
@@ -74,13 +93,20 @@ namespace DegreePlanner.Controllers
                 }
                 else
                 {
+                    // Ensure the user is not updating a course they don't own
+                    var existingCourse = _uow.Course.Get(c => c.Id == courseVM.Course.Id);
+
+
+                    if (existingCourse == null)
+                    {
+                        return Forbid();
+                    }
+
                     // Update an existing course
+                    existingCourse.Term = courseVM.Course.Term;
                     _uow.Course.Update(courseVM.Course);
                 }
 
-
-
-                //_uow.Course.Add(courseVM.Course);
                 _uow.Save();
                 // Success notification 
                 TempData["success"] = "Course added successfully";
@@ -104,10 +130,12 @@ namespace DegreePlanner.Controllers
 
         public IActionResult Detail(int id)
         {
-            var course = _uow.Course.Get(c => c.Id == id, includeProperties: "Term");
+            var userId = _userManager.GetUserId(User);
+
+            var course = _uow.Course.Get(c => c.Id == id && c.Term.UserId == userId, includeProperties: "Term");
             if (course == null)
             {
-                return NotFound();
+                return Forbid(); // Prevent users from viewing others' courses
             }
 
             var courseItems = _uow.CourseItem.GetAll(ci => ci.CourseId == id).OrderBy(ci => ci.DueDate ?? DateTime.MaxValue).ToList();
@@ -131,10 +159,13 @@ namespace DegreePlanner.Controllers
                 return NotFound();
                 //return Json(new { success = false, message = "Course not found." });
             }
-            Course? selectedCourse = _uow.Course.Get(u => u.Id == id); // Get by Id         
+
+            var userId = _userManager.GetUserId(User);
+
+            Course? selectedCourse = _uow.Course.Get(c => c.Id == id && c.Term.UserId == userId); // Get by Id           
             if (selectedCourse == null)
             {
-                return NotFound();
+                return Forbid(); // Prevent users from deleting others' courses
             }
 
             return View(selectedCourse);

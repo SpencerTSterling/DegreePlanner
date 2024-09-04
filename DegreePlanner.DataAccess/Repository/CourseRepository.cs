@@ -19,6 +19,12 @@ namespace DegreePlanner.DataAccess.Repository
         }
         public void Update(Course obj)
         {
+            var existingEntity = _db.Courses.Local.FirstOrDefault(x => x.Id == obj.Id);
+            if (existingEntity != null)
+            {
+                _db.Entry(existingEntity).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+            }
+
             _db.Courses.Update(obj);
         }
     }
