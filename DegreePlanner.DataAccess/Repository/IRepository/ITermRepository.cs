@@ -10,7 +10,5 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
     public interface ITermRepository : IRepository<Term>
     {
         // Added fuctions for Terms 
-
-        void Update(Term obj);
     }
 }

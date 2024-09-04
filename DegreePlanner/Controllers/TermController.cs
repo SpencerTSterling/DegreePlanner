@@ -16,6 +16,7 @@ namespace DegreePlanner.Controllers
         public TermController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         { 
             _uow = unitOfWork;
+
             _userManager = userManager;
         }
 
@@ -54,8 +55,10 @@ namespace DegreePlanner.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upsert(TermVM termVM)
+        public async Task<IActionResult> UpsertAsync(TermVM termVM)
         {
+
+
             // Date validation
             if (termVM.Term.StartDate > termVM.Term.EndDate)
             {
@@ -73,6 +76,9 @@ namespace DegreePlanner.Controllers
                     // Set the UserId for the new Term
                     termVM.Term.UserId = userId;
 
+                    // Get the User object and set it in the Term
+                    termVM.Term.User = await _userManager.GetUserAsync(User) as User;
+
                     // Add a new term
                     _uow.Term.Add(termVM.Term);
                     TempData["success"] = "Term added successfully";
@@ -85,6 +91,13 @@ namespace DegreePlanner.Controllers
                     if (existingTerm != null && existingTerm.UserId == userId)// if the existing term exists & matches User ID
                     {
                         // Update only if the term belongs to the logged-in user
+
+                        // Set the UserId for the new Term
+                        termVM.Term.UserId = userId;
+                        // Get the User object and set it in the Term
+                        termVM.Term.User = await _userManager.GetUserAsync(User) as User;
+
+                        //Update the term
                         _uow.Term.Update(termVM.Term);
                         TempData["success"] = "Term updated successfully";
                     }
@@ -105,6 +118,7 @@ namespace DegreePlanner.Controllers
 
         #endregion
 
+        // Not in use: 
 
         #region Create/Add Term
         public IActionResult Create()
