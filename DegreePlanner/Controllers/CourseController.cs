@@ -2,11 +2,13 @@
 using DegreePlanner.DataAccess.Repository.IRepository;
 using DegreePlanner.Models;
 using DegreePlanner.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DegreePlanner.Controllers
 {
+    [Authorize] // Ensure only logged-in users can access these actions
     public class CourseController : Controller
     {
         private readonly IUnitOfWork _uow; //unit of work
