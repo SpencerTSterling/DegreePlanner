@@ -1,32 +1,45 @@
 ﻿using DegreePlanner.DataAccess.Repository.IRepository;
 using DegreePlanner.Models;
 using DegreePlanner.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DegreePlannerWeb.Controllers
 {
+    [Authorize] // Ensure only logged-in users can access these actions
     public class CourseItemController : Controller
     {
         private readonly IUnitOfWork _uow;
+        private readonly UserManager<IdentityUser> _userManager; // Inject UserManager
 
-        public CourseItemController(IUnitOfWork unitOfWork)
+        public CourseItemController(IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager)
         {
             _uow = unitOfWork;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            List<CourseItem> objCourseItemList = _uow.CourseItem.GetAll(includeProperties: "Course").ToList();
+            // Get logged in user's ID
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch course items only associated with the logged in user
+            List<CourseItem> objCourseItemList = _uow.CourseItem.GetAll(c => c.Course.Term.UserId == userId, includeProperties: "Course").ToList();
+
             return View(objCourseItemList);
         }
 
         #region Upsert (Update/Insert)
         public IActionResult Upsert(int? id)
         {
+            var userId = _userManager.GetUserId(User);
+
             CourseItemVM courseitemVM = new()
             {
-                CourseList = _uow.Course.GetAll().Select(u => new SelectListItem
+                // Filter course belonging to the logged-in user
+                CourseList = _uow.Course.GetAll(c => c.Term.UserId == userId).Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
@@ -41,7 +54,11 @@ namespace DegreePlannerWeb.Controllers
             else
             {
                 //Update
-                courseitemVM.CourseItem = _uow.CourseItem.Get(u => u.Id == id);
+                courseitemVM.CourseItem = _uow.CourseItem.Get(u => u.Id == id && u.Course.Term.UserId == userId);
+                if (courseitemVM.CourseItem == null)
+                {
+                    return Forbid(); // Prevent users from editing other's course items
+                }
                 return View(courseitemVM);
             }
         }
@@ -49,8 +66,10 @@ namespace DegreePlannerWeb.Controllers
         [HttpPost]
         public IActionResult Upsert(CourseItemVM courseitemVM)
         {
-            // Get the course selection
-            Course selectedCourse = _uow.Course.Get(t => t.Id == courseitemVM.CourseItem.CourseId);
+            var userId = _userManager.GetUserId(User);
+
+            // Get the course selection (ensure it belongs to the logged in user)
+            Course selectedCourse = _uow.Course.Get(t => t.Id == courseitemVM.CourseItem.CourseId && t.Term.UserId == userId);
 
             if (ModelState.IsValid)
             {
@@ -64,6 +83,16 @@ namespace DegreePlannerWeb.Controllers
                 }
                 else
                 {
+                    // Ensure the user is not updating a course they don't own
+                    var existingCourseItem = _uow.CourseItem.Get(c => c.Id == courseitemVM.CourseItem.Id);
+
+                    if (existingCourseItem == null)
+                    {
+                        return Forbid();
+                    }
+
+                    existingCourseItem.Course = courseitemVM.CourseItem.Course;
+
                     // update an existing item
                     _uow.CourseItem.Update(courseitemVM.CourseItem);
                 }

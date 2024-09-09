@@ -9,6 +9,6 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
 {
     public interface ICourseItemRepository : IRepository<CourseItem>
     {
-        void Update(CourseItem item);
+        // Added functions for CourseItems
     }
 }
