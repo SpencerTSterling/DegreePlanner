@@ -1,5 +1,18 @@
 ﻿@model IEnumerable<DegreePlanner.Models.Course>
 
+
+@functions {
+    // A helper function to strip HTML tags (such as <p> and <br>)
+    public static string StripHtmlTags(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        // Strips out <p>, <br>, and other tags
+        return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
+    }
+}
+
 @if (Model != null && Model.Any())
 {
     <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -14,7 +27,9 @@
                         @if (!string.IsNullOrWhiteSpace(course?.Description))
                         {
                             <!-- Course description with limited display to one line -->
-                            <small class="text-secondary description-text">@Html.Raw(@course?.Description)</small>
+                            <small class="text-secondary description-text">
+                                @StripHtmlTags(course?.Description)
+                            </small>
 
                         }
                         else
@@ -37,14 +52,3 @@ else
 {
     <p>No courses available for this term.</p>
 }
-
-<style>
-    .description-text {
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%; /* Ensure it takes the full width of the card */
-    }
-</style>
-

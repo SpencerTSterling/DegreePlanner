@@ -1,0 +1,59 @@
+﻿/* dashboard.css */
+
+/* Container styles */
+.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.dashboard-left {
+    width: 70%;
+}
+
+.dashboard-right {
+    width: 30%;
+}
+
+/* Course grid styles */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Search box styling */
+.search-box {
+    margin-bottom: 20px;
+}
+
+/* Course items list with scroll */
+.course-items-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/*Course description ellipsis stlying*/
+.description-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Ensure it takes the full width of the card */
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+/* Additional styles for course items (optional) */
+.course-item {
+    padding: 10px;
+}
+
+.course-item-type {
+    font-weight: bold;
+}
+
+.course-item-due-date {
+    font-size: 0.9rem;
+    color: gray;
+}

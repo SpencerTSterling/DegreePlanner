@@ -1,5 +1,9 @@
 ﻿@model DashboardVM
+<head>
+    <!-- Stylesheet for Dashboard -->
+    <link rel="stylesheet" href="~/css/dashboard.css" />
 
+</head>
 <div class="container mt-4">
     <!-- Dashboard Heading -->
     <div class="row">
@@ -11,7 +15,7 @@
     <!-- Select Term Section -->
     <div class="row mt-3">
         <div class="col">
-            <label for="termId" class="form-label" style="font-size: 1.15rem; font-weight: 500;">Select Term:</label>
+            <label for="termId" class="form-label">Select Term:</label>
             <select id="termId" class="form-select mb-4">
                 @foreach (var term in Model.TermsList)
                 {
@@ -78,35 +82,3 @@
         }
     </script>
 }
-
-
-<style>
-    .dashboard-container {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .dashboard-left {
-        width: 70%;
-    }
-
-    .dashboard-right {
-        width: 30%;
-    }
-
-    .course-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .search-box {
-        margin-bottom: 20px;
-    }
-
-    .course-items-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-</style>
