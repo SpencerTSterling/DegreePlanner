@@ -1,21 +1,48 @@
 ﻿@model DashboardVM
+<head>
+    <!-- Stylesheet for Dashboard -->
+    <link rel="stylesheet" href="~/css/dashboard.css" />
 
-<div>
-    <label for="termId">Select Term:</label>
-    <select id="termId">
-        @foreach (var term in Model.TermsList)
-        {
-            <option value="@term.Id">@term.Name</option>
-        }
-    </select>
-</div>
+</head>
+<div class="container mt-4">
+    <!-- Dashboard Heading -->
+    <div class="row">
+        <div class="col">
+            <h3>Dashboard</h3>
+        </div>
+    </div>
 
-<div id="courseContainer">
-    <!-- Courses will be loaded here -->
-</div>
+    <!-- Select Term Section -->
+    <div class="row mt-3">
+        <div class="col">
+            <label for="termId" class="form-label">Select Term:</label>
+            <select id="termId" class="form-select mb-4">
+                @foreach (var term in Model.TermsList)
+                {
+                    <option value="@term.Id">@term.Name</option>
+                }
+            </select>
+        </div>
+    </div>
 
-<div id="courseItems">
-    <!-- Course item list will be dynamically populated here -->
+    <!-- Courses Grid -->
+    <div class="row g-4">
+        <div class="col-lg-9" id="courseContainer">
+            <!-- Course cards will be loaded here dynamically -->
+        </div>
+
+        <!-- Search Box and Course Items -->
+        <div class="col-lg-3">
+            <div class="input-group mb-3">
+                <!-- Search Bar with Bootstrap Search Icon -->
+                <span class="input-group-text" id="searchIcon"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="searchIcon">
+            </div>
+            <div id="courseItems">
+                <!-- Course items will be dynamically populated here -->
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -40,7 +67,6 @@
                         .fail(function () {
                             console.error('Failed to load course items.');
                         });
-
                 } else {
                     $('#courseContainer').empty();
                     $('#courseItems').empty()

@@ -1,18 +1,52 @@
 ﻿@model IEnumerable<DegreePlanner.Models.Course>
 
+
+@functions {
+    // A helper function to strip HTML tags (such as <p> and <br>)
+    public static string StripHtmlTags(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        // Strips out <p>, <br>, and other tags
+        return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
+    }
+}
+
 @if (Model != null && Model.Any())
 {
-    @foreach (var course in Model)
-    {
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@course?.Name</h5>
-                <p class="card-text">Status: @course?.Status</p>
-                <!-- Add more details as needed -->
-                <button class="btn btn-primary" onclick="viewCourseDetails(@course.Id)">View Details</button>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach (var course in Model)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@course?.Name</h5>
+                        <p class="card-text text-muted">Status: @course?.Status</p>
+
+                        @if (!string.IsNullOrWhiteSpace(course?.Description))
+                        {
+                            <!-- Course description with limited display to one line -->
+                            <small class="text-secondary description-text">
+                                @StripHtmlTags(course?.Description)
+                            </small>
+
+                        }
+                        else
+                        {
+                            <small class="text-secondary description-text">No Description</small>
+                        }
+
+                        <!-- Icon and small "View Details" text -->
+                        <button class="btn btn-link" onclick="viewCourseDetails(@course.Id)">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <small class="ms-1">View Details</small>
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 }
 else
 {
