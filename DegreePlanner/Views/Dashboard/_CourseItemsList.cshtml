@@ -26,33 +26,3 @@ else
 {
     <p>Nothing to do yet.</p>
 }
-
-
-<script>
-    function markAsComplete(itemId, checkbox) {
-        console.log('Checkbox clicked for item ID:', itemId, 'Completed:', checkbox.checked);
-        var isCompleted = checkbox.checked;
-
-        $.post('@Url.Action("MarkCourseItemAsComplete", "Dashboard")', { id: itemId, isCompleted: isCompleted })
-            .done(function () {
-                // Update the UI based on the completion state without refreshing
-                if (isCompleted) {
-                    $(checkbox).closest('.course-item').addClass('list-group-item-success');
-                } else {
-                    $(checkbox).closest('.course-item').removeClass('list-group-item-success');
-                }
-            })
-            .fail(function () {
-                console.error('Failed to update course item.');
-            });
-    }
-
-</script>
-
-<script>
-    // Function to handle redirection to the Course Detail page
-    function goToCourseDetail(courseId) {
-        // Redirect to the course detail page
-        window.location.href = '/Course/Detail/' + courseId;
-    }
-</script>
