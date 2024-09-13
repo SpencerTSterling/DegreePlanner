@@ -57,3 +57,23 @@
     font-size: 0.9rem;
     color: gray;
 }
+
+
+/* Styling Search results */
+.search-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.search-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+    .search-item:hover {
+        background-color: #f1f1f1;
+    }

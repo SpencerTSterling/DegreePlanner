@@ -1,30 +1,16 @@
 ﻿
-// _CourseCards functions
-    // A helper function to strip HTML tags (such as <p> and <br>)
-    public static string StripHtmlTags(string input)
-{
-    if (string.IsNullOrEmpty(input))
-        return input;
-
-    // Strips out <p>, <br>, and other tags
-    return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
-}
-
-
-
-// _CourseItemsList functions
+// Function to redirect to course detail
 function goToCourseDetail(courseId) {
-    // Redirect to the course detail page
     window.location.href = '/Course/Detail/' + courseId;
 }
 
+// Function to mark course item as complete
 function markAsComplete(itemId, checkbox) {
     console.log('Checkbox clicked for item ID:', itemId, 'Completed:', checkbox.checked);
     var isCompleted = checkbox.checked;
 
-    $.post('@Url.Action("MarkCourseItemAsComplete", "Dashboard")', { id: itemId, isCompleted: isCompleted })
+    $.post('/Dashboard/MarkCourseItemAsComplete', { id: itemId, isCompleted: isCompleted })
         .done(function () {
-            // Update the UI based on the completion state without refreshing
             if (isCompleted) {
                 $(checkbox).closest('.course-item').addClass('list-group-item-success');
             } else {
@@ -36,13 +22,65 @@ function markAsComplete(itemId, checkbox) {
         });
 }
 
+// Function to perform search
+function performSearch(query) {
+    if (query.length < 3) {
+        $('#searchResults').html(''); // Clear if less than 3 characters
+        return;
+    }
 
-// Index page functions
+    $.ajax({
+        url: '/Dashboard/Search',
+        type: 'GET',
+        data: { query: query },
+        success: function (data) {
+            let resultsHtml = '';
+
+            if (data.Terms.length) {
+                resultsHtml += '<h5>Terms</h5>';
+                data.Terms.forEach(term => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToDashboard(${term.id})">${term.name}</div>`;
+                });
+            }
+
+            if (data.Courses.length) {
+                resultsHtml += '<h5>Courses</h5>';
+                data.Courses.forEach(course => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToCourse(${course.id})">${course.name}</div>`;
+                });
+            }
+
+            if (data.CourseItems.length) {
+                resultsHtml += '<h5>Course Items</h5>';
+                data.CourseItems.forEach(item => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToCourse(${item.courseId})">${item.name}</div>`;
+                });
+            }
+
+            $('#searchResults').html(resultsHtml);
+        },
+        error: function () {
+            console.error('Search failed.');
+        }
+    });
+}
+
+// Redirect functions
+function redirectToDashboard(termId) {
+    window.location.href = `/Dashboard/Index?selectedTermId=${termId}`;
+}
+
+function redirectToCourse(courseId) {
+    window.location.href = `/Course/Detail/${courseId}`;
+}
+
+// Document Ready Function
 $(document).ready(function () {
+    // Load courses and course items on term change
     $('#termId').change(function () {
         var termId = $(this).val();
         if (termId !== '') {
-            $.get('@Url.Action("GetCoursesByTerm", "Dashboard")', { termId: termId })
+            $.get('/Dashboard/GetCoursesByTerm', { termId: termId })
                 .done(function (data) {
                     $('#courseContainer').html(data);
                 })
@@ -50,7 +88,7 @@ $(document).ready(function () {
                     console.error('Failed to load courses.');
                 });
 
-            $.get('@Url.Action("GetCourseItemsByTerm", "Dashboard")', { termId: termId })
+            $.get('/Dashboard/GetCourseItemsByTerm', { termId: termId })
                 .done(function (data) {
                     $('#courseItems').html(data);
                 })
@@ -59,14 +97,15 @@ $(document).ready(function () {
                 });
         } else {
             $('#courseContainer').empty();
-            $('#courseItems').empty()
+            $('#courseItems').empty();
         }
     });
 
     // Trigger change event to load default term's courses on page load
     $('#termId').trigger('change');
-});
 
-function viewCourseDetails(courseId) {
-    window.location.href = '@Url.Action("Detail", "Course")' + '/' + courseId;
-}
+    // Bind search box input event
+    $('#searchBox').on('input', function () {
+        performSearch($(this).val());
+    });
+});

@@ -82,5 +82,28 @@ namespace DegreePlannerWeb.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult Search(string query)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch matching terms, courses, and course items
+            var terms = _uow.Term.GetAll(t => t.UserId == userId && t.Name.Contains(query)).ToList();
+            var courses = _uow.Course.GetAll(c => c.Term.UserId == userId && c.Name.Contains(query)).ToList();
+            var courseItems = _uow.CourseItem.GetAll(ci => ci.Course.Term.UserId == userId && ci.Name.Contains(query)).ToList();
+
+            var searchResults = new
+            {
+                Terms = terms,
+                Courses = courses,
+                CourseItems = courseItems
+            };
+
+            return Json(searchResults);
+
+
+        }
+
     }
 }

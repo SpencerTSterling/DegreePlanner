@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<DegreePlanner.Models.Course>
 
-
 @functions {
     // A helper function to strip HTML tags (such as <p> and <br>)
     public static string StripHtmlTags(string input)
@@ -38,7 +37,7 @@
                         }
 
                         <!-- Icon and small "View Details" text -->
-                        <button class="btn btn-link" onclick="viewCourseDetails(@course.Id)">
+                        <button class="btn btn-link" onclick="goToCourseDetail(@course.Id)">
                             <i class="bi bi-exclamation-circle"></i>
                             <small class="ms-1">View Details</small>
                         </button>
