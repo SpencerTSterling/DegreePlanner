@@ -22,7 +22,7 @@ namespace DegreePlannerWeb.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? selectedTermId)
         {
             // Get logged in user's ID
             var userId = _userManager.GetUserId(User);
@@ -32,8 +32,11 @@ namespace DegreePlannerWeb.Controllers
             var viewModel = new DashboardVM
             {
                 TermsList = terms.ToList(),
-                
             };
+            if (selectedTermId != null)
+            {
+                viewModel.SelectedTermId = selectedTermId;
+            }
             return View(viewModel);
         }
 
@@ -95,15 +98,14 @@ namespace DegreePlannerWeb.Controllers
 
             var searchResults = new
             {
-                Terms = terms,
-                Courses = courses,
-                CourseItems = courseItems
+                Terms = terms.Select(t => new { t.Id, t.Name }),
+                Courses = courses.Select(c => new { c.Id, c.Name }),
+                CourseItems = courseItems.Select(ci => new { ci.Id, ci.Name, ci.CourseId })
             };
 
             return Json(searchResults);
-
-
         }
+
 
     }
 }
