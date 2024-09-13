@@ -67,6 +67,7 @@ function performSearch(query) {
                 resultsHtml = '<p>No results found.</p>';
             }
 
+
             $('#searchResults').html(resultsHtml);  // Update the HTML content of the search results
         },
         error: function (xhr, status, error) {
