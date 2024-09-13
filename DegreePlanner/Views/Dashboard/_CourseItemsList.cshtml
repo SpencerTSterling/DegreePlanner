@@ -1,16 +1,20 @@
 ﻿@model IEnumerable<DegreePlanner.Models.CourseItem>
 
+
 @if (Model != null && Model.Any())
 {
     <ul class="list-group">
         @foreach (var item in Model)
         {
-            <li class="list-group-item course-item @(item.IsCompleted ? "list-group-item-success" : "")">
+            <li class="list-group-item course-item @(item.IsCompleted ? "list-group-item-success" : "")"
+                onclick="goToCourseDetail(@item.CourseId, event)" style="cursor: pointer;">
                 <div class="form-check">
                     <!-- Checkbox for marking course item as complete -->
-                    <input type="checkbox" class="form-check-input" id="courseItem_@item.Id" @(item.IsCompleted ? "checked" : "") onclick="markAsComplete(@item.Id, this)">
+                    <input type="checkbox" class="form-check-input" id="courseItem_@item.Id"
+                    @(item.IsCompleted ? "checked" : "")
+                           onclick="markAsComplete(@item.Id, this); event.stopPropagation();">
                     <label class="form-check-label" for="courseItem_@item.Id">
-                        <span class="course-item-type">@item.Type</span> - <span class="course-item-name">@item.Name</span>
+                        <span class="course-item-type">@item.Type</span> - @item.Name
                     </label>
                 </div>
                 <span class="course-item-due-date">Due Date: @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "No due date")</span>
@@ -22,6 +26,7 @@ else
 {
     <p>Nothing to do yet.</p>
 }
+
 
 <script>
     function markAsComplete(itemId, checkbox) {
@@ -42,4 +47,12 @@ else
             });
     }
 
+</script>
+
+<script>
+    // Function to handle redirection to the Course Detail page
+    function goToCourseDetail(courseId) {
+        // Redirect to the course detail page
+        window.location.href = '/Course/Detail/' + courseId;
+    }
 </script>
