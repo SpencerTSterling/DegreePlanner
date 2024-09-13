@@ -27,6 +27,7 @@
 
     <!-- Courses Grid -->
     <div class="row g-4">
+        <h4> Courses </h4>
         <div class="col-lg-9" id="courseContainer">
             <!-- Course cards will be loaded here dynamically -->
         </div>
@@ -38,6 +39,7 @@
                 <span class="input-group-text" id="searchIcon"><i class="bi bi-search"></i></span>
                 <input type="text" id="searchBox" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="searchIcon">
             </div>
+            <h4> To Do </h4>
             <div id="courseItems">
                 <!-- Course items will be dynamically populated here -->
             </div>
@@ -46,6 +48,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/dashboard.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {

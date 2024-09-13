@@ -64,5 +64,23 @@ namespace DegreePlannerWeb.Controllers
             return PartialView("_CourseItemsList", courseItemList);
         }
 
+        [HttpPost]
+        public IActionResult MarkCourseItemAsComplete(int id, bool isCompleted)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // Fetch the course item by ID, ensuring the item belongs to the logged-in user
+            var courseItem = _uow.CourseItem.Get(ci => ci.Id == id && ci.Course.Term.UserId == userId);
+            if (courseItem == null)
+            {
+                return NotFound();
+            }
+
+            // Update the course item's IsCompleted field
+            courseItem.IsCompleted = isCompleted;
+            _uow.Save(); // Save the changes to the database
+
+            return Ok();
+        }
     }
 }
