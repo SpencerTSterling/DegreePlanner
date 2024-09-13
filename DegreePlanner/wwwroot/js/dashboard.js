@@ -1,30 +1,15 @@
-﻿
-// _CourseCards functions
-    // A helper function to strip HTML tags (such as <p> and <br>)
-    public static string StripHtmlTags(string input)
-{
-    if (string.IsNullOrEmpty(input))
-        return input;
-
-    // Strips out <p>, <br>, and other tags
-    return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
-}
-
-
-
-// _CourseItemsList functions
+﻿// Function to redirect to course detail
 function goToCourseDetail(courseId) {
-    // Redirect to the course detail page
     window.location.href = '/Course/Detail/' + courseId;
 }
 
+// Function to mark course item as complete
 function markAsComplete(itemId, checkbox) {
     console.log('Checkbox clicked for item ID:', itemId, 'Completed:', checkbox.checked);
     var isCompleted = checkbox.checked;
 
-    $.post('@Url.Action("MarkCourseItemAsComplete", "Dashboard")', { id: itemId, isCompleted: isCompleted })
+    $.post('/Dashboard/MarkCourseItemAsComplete', { id: itemId, isCompleted: isCompleted })
         .done(function () {
-            // Update the UI based on the completion state without refreshing
             if (isCompleted) {
                 $(checkbox).closest('.course-item').addClass('list-group-item-success');
             } else {
@@ -36,13 +21,78 @@ function markAsComplete(itemId, checkbox) {
         });
 }
 
+// Function to perform search
+function performSearch(query) {
+    if (query.length < 3) {
+        $('#searchResults').html(''); // Clear if less than 3 characters
+        return;
+    }
 
-// Index page functions
+    $.ajax({
+        url: '/Dashboard/Search',
+        type: 'GET',
+        data: { query: query },
+        success: function (data) {
+            // Log the data to ensure it's being returned correctly
+            console.log('Data from search:', data);
+
+            let resultsHtml = '';
+
+            // Safely process terms (check if data.terms is defined and has content)
+            if (data.terms && Array.isArray(data.terms) && data.terms.length > 0) {
+                resultsHtml += '<h5>Terms</h5>';
+                data.terms.forEach(term => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToDashboard(${term.id})">${term.name}</div>`;
+                });
+            }
+
+            // Safely process courses (check if data.courses is defined and has content)
+            if (data.courses && Array.isArray(data.courses) && data.courses.length > 0) {
+                resultsHtml += '<h5>Courses</h5>';
+                data.courses.forEach(course => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToCourse(${course.id})">${course.name}</div>`;
+                });
+            }
+
+            // Safely process course items (check if data.courseItems is defined and has content)
+            if (data.courseItems && Array.isArray(data.courseItems) && data.courseItems.length > 0) {
+                resultsHtml += '<h5>Course Items</h5>';
+                data.courseItems.forEach(item => {
+                    resultsHtml += `<div class="search-item" onclick="redirectToCourse(${item.courseId})">${item.name}</div>`;
+                });
+            }
+
+            // If no results
+            if (!resultsHtml) {
+                resultsHtml = '<p>No results found.</p>';
+            }
+
+
+            $('#searchResults').html(resultsHtml);  // Update the HTML content of the search results
+        },
+        error: function (xhr, status, error) {
+            console.error('Search failed: ', status, error);
+            $('#searchResults').html('<p>Search failed. Please try again.</p>');
+        }
+    });
+}
+
+// Redirect functions
+function redirectToDashboard(termId) {
+    window.location.href = `/Dashboard/Index?selectedTermId=${termId}`;
+}
+
+function redirectToCourse(courseId) {
+    window.location.href = `/Course/Detail/${courseId}`;
+}
+
+// Document Ready Function
 $(document).ready(function () {
+    // Load courses and course items on term change
     $('#termId').change(function () {
         var termId = $(this).val();
         if (termId !== '') {
-            $.get('@Url.Action("GetCoursesByTerm", "Dashboard")', { termId: termId })
+            $.get('/Dashboard/GetCoursesByTerm', { termId: termId })
                 .done(function (data) {
                     $('#courseContainer').html(data);
                 })
@@ -50,7 +100,7 @@ $(document).ready(function () {
                     console.error('Failed to load courses.');
                 });
 
-            $.get('@Url.Action("GetCourseItemsByTerm", "Dashboard")', { termId: termId })
+            $.get('/Dashboard/GetCourseItemsByTerm', { termId: termId })
                 .done(function (data) {
                     $('#courseItems').html(data);
                 })
@@ -59,14 +109,25 @@ $(document).ready(function () {
                 });
         } else {
             $('#courseContainer').empty();
-            $('#courseItems').empty()
+            $('#courseItems').empty();
         }
     });
 
     // Trigger change event to load default term's courses on page load
-    $('#termId').trigger('change');
-});
+    //$('#termId').trigger('change');
 
-function viewCourseDetails(courseId) {
-    window.location.href = '@Url.Action("Detail", "Course")' + '/' + courseId;
-}
+    // Bind search box input event
+    $('#searchBox').on('input', function () {
+        performSearch($(this).val());
+    });
+    // Check if there's a selectedTermId query parameter and set it in the drop-down
+    var urlParams = new URLSearchParams(window.location.search);
+    var selectedTermId = urlParams.get('selectedTermId');
+    if (selectedTermId) {
+        $('#termId').val(selectedTermId).trigger('change');
+    } else {
+        // Trigger change event to load default term's courses on page load
+        $('#termId').trigger('change');
+    }
+
+});

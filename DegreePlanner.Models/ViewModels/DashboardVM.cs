@@ -15,7 +15,7 @@ namespace DegreePlanner.Models.ViewModels
 
         // Property to hold the selected term ID (for dropdown selection)
         [ValidateNever]
-        public int SelectedTermId { get; set; }
+        public int? SelectedTermId { get; set; }
 
         // Property to hold the list of courses for the selected term
         [ValidateNever]

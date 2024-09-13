@@ -22,11 +22,6 @@
     gap: 20px;
 }
 
-/* Search box styling */
-.search-box {
-    margin-bottom: 20px;
-}
-
 /* Course items list with scroll */
 .course-items-list {
     max-height: 400px;
@@ -46,6 +41,7 @@
 
 /* Additional styles for course items (optional) */
 .course-item {
+    margin-top: 20px;
     padding: 10px;
 }
 
@@ -57,3 +53,32 @@
     font-size: 0.9rem;
     color: gray;
 }
+
+
+/* Search box styling */
+.search-box {
+    margin-bottom: 20px;
+}
+
+
+/* Styling Search results */
+.search-results {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.search-results h3{
+    padding: 2%
+} 
+
+.search-item {
+    padding: 1%;
+    cursor: pointer;
+}
+
+    .search-item:hover {
+        background-color: #f1f1f1;
+    }
