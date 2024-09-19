@@ -111,7 +111,7 @@ namespace DegreePlanner.Controllers
                 // Success notification 
                 TempData["success"] = "Course added successfully";
                 // Return to list page
-                return RedirectToAction("Index", "Course");
+                return RedirectToAction("Index", "DegreePlan");
             }
             else // Repopulate the drop-down if the model state returns invalid
             {
@@ -182,7 +182,7 @@ namespace DegreePlanner.Controllers
             // Success notification
             TempData["success"] = "Course deleted successfully";
             //Redirect to index
-            return RedirectToAction("Index", "Course");
+            return RedirectToAction("Index", "DegreePlan");
         }
 
         #endregion 
