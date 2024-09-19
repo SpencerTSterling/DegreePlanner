@@ -144,7 +144,7 @@ namespace DegreePlanner.Controllers
             // Success notification
             TempData["success"] = "Term deleted successfully";
             //Redirect to index
-            return RedirectToAction("Index", "Term");
+            return RedirectToAction("Index", "DegreePlan");
         }
 
         #endregion 
