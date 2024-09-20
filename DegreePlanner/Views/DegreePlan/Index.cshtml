@@ -19,12 +19,12 @@
                             <small>@termWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to @termWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")</small>
                         </div>
                         <div>
-                            <!-- Edit and Delete Icons -->
+                            <!-- Edit and Delete Icons for Term -->
                             <a href="@Url.Action("Upsert", "Term", new { id = termWithCourses.Term.Id })" class="text-decoration-none me-2">
-                                <i class="bi bi-pencil"></i>
+                                <i class="bi bi-pencil term-icon"></i>
                             </a>
                             <a href="@Url.Action("Delete", "Term", new { id = termWithCourses.Term.Id })" class="text-decoration-none text-danger">
-                                <i class="bi bi-trash"></i>
+                                <i class="bi bi-trash term-icon"></i>
                             </a>
                             <i class="bi bi-caret-down-fill term-caret ms-2"></i>
                         </div>
@@ -36,11 +36,22 @@
                             {
                                 @foreach (var course in termWithCourses.Courses)
                                 {
-                                    <li class="list-group-item">
-                                        <a href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
-                                            <strong>@course.Name</strong>
-                                        </a> - @course.Status
-                                        <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(@course.Id)">View Details</button>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <!-- Course name as a clickable link to the Course Detail page -->
+                                            <a class="course-name "href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
+                                                <strong>@course.Name</strong>
+                                            - @course.Status - @course.StartDate.ToShortDateString()-@course.EndDate.ToShortDateString()
+                                        </div>
+                                        <div>
+                                            <!-- Edit and Delete Icons for Course -->
+                                            <a href="@Url.Action("Upsert", "Course", new { id = course.Id })" class="text-decoration-none me-2">
+                                                <i class="bi bi-pencil course-icon"></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", "Course", new { id = course.Id })" class="text-decoration-none text-danger">
+                                                <i class="bi bi-trash course-icon"></i>
+                                            </a>
+                                        </div>
                                     </li>
                                 }
                             }
@@ -54,6 +65,7 @@
                 <hr />
             }
         </div>
+
     </div>
 
     <!-- Right column: Planning actions -->
@@ -129,6 +141,26 @@
 
 
 <style>
+
+    .course-name{
+        color: black;
+        text-decoration:none;
+        transition: color 0.3s;
+    }
+    .course-name:hover{
+            color: cornflowerblue
+    }
+
+    .term-icon, .course-icon {
+        font-size: 0.8rem; /* Adjust size as needed */
+        opacity: 0.7; /* Slightly transparent */
+    }
+
+        .term-icon:hover, .course-icon:hover {
+            opacity: 1; /* Fully opaque on hover */
+        }
+
+
     .term-section {
         background-color: #f8f9fa;
         padding: 15px;
@@ -153,15 +185,5 @@
     .planning h3 {
         text-align: center;
     }
-
-    .course-link {
-        text-decoration: none;
-        color: black;
-        transition: color 0.3s;
-    }
-
-        .course-link:hover {
-            color: #353935;
-        }
 
 </style>
