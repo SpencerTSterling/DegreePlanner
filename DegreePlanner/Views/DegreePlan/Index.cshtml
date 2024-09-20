@@ -1,12 +1,8 @@
 ﻿@model DegreePlanner.Models.ViewModels.DegreePlanVM
 
 <div class="row">
-    <!-- Left column: Terms list -->
+
     <div class="col-md-8">
-        <div class="mb-3">
-            <button id="expandAll" class="btn btn-info btn-sm">Expand All</button>
-            <button id="collapseAll" class="btn btn-dark btn-sm">Collapse All</button>
-        </div>
 
         <!-- Term List Section -->
         <div>
@@ -75,6 +71,13 @@
             <a href="@Url.Action("Upsert", "Term", null)" class="btn btn-primary mb-2">Add Term</a>
             <a href="@Url.Action("Upsert", "Course", null)" class="btn btn-primary mb-2">Add Course</a>
         </div>
+        <!-- Expand and Collaspe all buttons -->
+
+        <div class="mb-3">
+            <button id="expandAll" class="btn btn-info btn-sm">Expand All</button>
+            <button id="collapseAll" class="btn btn-dark btn-sm">Collapse All</button>
+        </div>
+
     </div>
 </div>
 
@@ -184,6 +187,16 @@
 
     .planning h3 {
         text-align: center;
+        margin-bottom: 10%
+    }
+
+    .planning {
+        justify-content: center;
+        padding: 10px;
+    }
+    #expandAll, #collapseAll {
+        margin-top: 10%;
+        border-radius: 2px;
     }
 
 </style>
