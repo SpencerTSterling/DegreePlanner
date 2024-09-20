@@ -1,0 +1,55 @@
+﻿.course-name {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+    .course-name:hover {
+        color: cornflowerblue
+    }
+
+.term-icon, .course-icon {
+    font-size: 0.8rem; /* Adjust size as needed */
+    opacity: 0.7; /* Slightly transparent */
+}
+
+    .term-icon:hover, .course-icon:hover {
+        opacity: 1; /* Fully opaque on hover */
+    }
+
+
+.term-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.term-header {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .term-header:hover {
+        background-color: #f8f9fa
+    }
+
+.term-caret {
+    transition: transform 0.3s;
+}
+
+.planning h3 {
+    text-align: center;
+    margin-bottom: 10%
+}
+
+.planning {
+    justify-content: center;
+    padding: 10px;
+}
+
+#expandAll, #collapseAll {
+    margin-top: 10%;
+    border-radius: 2px;
+}
