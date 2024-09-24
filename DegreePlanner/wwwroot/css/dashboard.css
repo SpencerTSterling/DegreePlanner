@@ -55,6 +55,12 @@
 }
 
 
+/* Scrollable course items list */
+#courseItems {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
 /* Search box styling */
 .search-box {
     margin-bottom: 20px;
