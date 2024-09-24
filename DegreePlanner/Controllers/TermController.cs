@@ -118,77 +118,6 @@ namespace DegreePlanner.Controllers
 
         #endregion
 
-        // Not in use: 
-
-        #region Create/Add Term
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // Creating a Term
-        [HttpPost]
-        public IActionResult Create(Term obj)
-        {
-            // Date validation
-            if (obj.StartDate > obj.EndDate)
-            {
-                ModelState.AddModelError("StartDate", "Start date cannot be later than end date.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                _uow.Term.Add(obj);
-                _uow.Save();
-                // Success notification 
-                TempData["success"] = "Term added successfully";
-                // Return to list page
-                return RedirectToAction("Index", "Term");
-            }
-            return View();
-        }
-        #endregion
-
-        #region Edit/Update Term
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Term? selectedTerm = _uow.Term.Get(u => u.Id == id); // get by Id
-            if (selectedTerm == null)
-            {
-                return NotFound();
-            }
-
-            return View(selectedTerm);
-        }
-        //Editing a Term
-        [HttpPost]
-        public IActionResult Edit(Term obj) 
-        {
-            // Date validation
-            if (obj.StartDate > obj.EndDate)
-            {
-                ModelState.AddModelError("StartDate", "Start date cannot be later than end date.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                _uow.Term.Update(obj);
-                _uow.Save();
-                // Success notification
-                TempData["success"] = "Term edited successfully";
-                // Return to list page
-                return RedirectToAction("Index", "Term");
-            }
-            return View();
-        }
-
-        #endregion
-
-
         #region Delete/Remove Term
         public IActionResult Delete(int? id)
         {
@@ -215,7 +144,7 @@ namespace DegreePlanner.Controllers
             // Success notification
             TempData["success"] = "Term deleted successfully";
             //Redirect to index
-            return RedirectToAction("Index", "Term");
+            return RedirectToAction("Index", "DegreePlan");
         }
 
         #endregion 
