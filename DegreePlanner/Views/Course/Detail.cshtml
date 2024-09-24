@@ -1,5 +1,9 @@
 ﻿@model CourseDetailVM
 
+<head>
+    <link rel="stylesheet" href="~/css/coursedetails.css" />
+</head>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -13,8 +17,11 @@
                 <ul class="list-group">
                     @foreach (var item in Model.CourseItems)
                     {
-                        <li class="list-group-item @(item.DueDate.HasValue && item.DueDate < DateTime.Now ? "list-group-item-danger" : "")">
-                            <h5>@item.Name</h5>
+                        <li class="list-group-item @(item.DueDate.HasValue && item.DueDate < DateTime.Now ? "list-group-item-danger" : "") @(item.IsCompleted ? "list-group-item-success" : "")">
+                            <h5>
+                                <input type="checkbox" class="form-check-input" id="itemCheckbox_@item.Id" @(item.IsCompleted ? "checked" : "") onclick="markAsComplete(@item.Id, this)">
+                                @item.Name
+                            </h5>
                             <p>@Html.Raw(@item.Description)</p>
                             <p>Due Date: @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "No due date")</p>
                             <p>Type: @item.Type</p>
@@ -29,3 +36,9 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script src="~/js/coursedetails.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+}
