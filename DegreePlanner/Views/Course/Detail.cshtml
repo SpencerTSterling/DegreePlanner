@@ -36,7 +36,7 @@
                         </div>
                         <!-- Add and Delete buttons -->
                         <div>
-                            <a href="@Url.Action("Delete", "CourseItem", new { id = item.Id })" class="">
+                            <a href="@Url.Action("Delete", "CourseItem", new { id = item.Id, returnUrl = Url.Action("Detail", "Course", new {id = Model.Course.Id }) })" class="">
                                 <i class="bi bi-dash-circle-fill"></i>
                             </a>
                         </div>
@@ -46,7 +46,7 @@
 
             <!-- Add Course Item Button -->
             <div class="mt-3">
-                <a href="@Url.Action("Upsert", "CourseItem", new { courseId = Model.Course.Id, returnUrl = Url.Action("CourseDetail", "Course", new { id = Model.Course.Id }) })" class="btn btn-primary">
+                <a href="@Url.Action("Upsert", "CourseItem", new { courseId = Model.Course.Id, returnUrl = Url.Action("Detail", "Course", new { id = Model.Course.Id }) })" class="btn btn-primary">
                     <i class="bi bi-plus-circle-fill"></i> Add item
                 </a>
             </div>

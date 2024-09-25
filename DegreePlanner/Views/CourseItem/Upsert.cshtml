@@ -47,7 +47,8 @@
         {
             <button type="submit" class="btn btn-primary" style="width:150px">Add</button>
         }
-        <a asp-controller="CourseItem" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+        <a asp-controller="Course" asp-action="Detail" asp-route-id="@Model.CourseItem.CourseId" class="p-3" style="width:150px">Cancel</a>
+
     </div>
 
 </form>

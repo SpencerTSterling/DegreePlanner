@@ -32,7 +32,7 @@ namespace DegreePlannerWeb.Controllers
         }
 
         #region Upsert (Update/Insert)
-        public IActionResult Upsert(int? id, string returnUrl)
+        public IActionResult Upsert(int? id, int courseId, string returnUrl)
         {
             // Store the return URL in TempData
             TempData["ReturnUrl"] = returnUrl;
@@ -47,7 +47,7 @@ namespace DegreePlannerWeb.Controllers
                     Text = u.Name,
                     Value = u.Id.ToString()
                 }),
-                CourseItem = new CourseItem()
+                CourseItem = new CourseItem { CourseId = courseId } // prepopulate courseid
             };
             if (id == null || id == 0) // if ID doesn't exist
             {
@@ -137,16 +137,24 @@ namespace DegreePlannerWeb.Controllers
 
         // Deleting a CourseItem
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
+        public IActionResult DeletePOST(int? id, string returnUrl)
         {
             CourseItem? obj = _uow.CourseItem.Get(u => u.Id == id);
             if (obj == null) { return NotFound(); }
             _uow.CourseItem.Delete(obj);
             _uow.Save();
+
             // Success notification
             TempData["success"] = "Course deleted successfully";
-            //Redirect to index
-            return RedirectToAction("Index", "CourseItem");
+
+            // Redirect back to CourseDetail if returnUrl is available
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            // Fallback to CourseDetail page
+            return RedirectToAction("Detail", "Course", new { id = obj.CourseId });
         }
 
 
