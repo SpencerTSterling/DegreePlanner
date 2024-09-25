@@ -10,7 +10,12 @@
         });
 }
 $(document).ready(function () {
+
+    console.log("Document is ready!");
+
+
     // Caret toggle logic
+
     $('.term-header').click(function (e) {
         e.preventDefault(); // Prevent default behavior
 
@@ -25,7 +30,6 @@ $(document).ready(function () {
             $caret.removeClass('bi-caret-up-fill').addClass('bi-caret-down-fill');
         }
     });
-
     // Expand and collapse all logic
     $('#expandAll').click(function () {
         $('.collapse').collapse('show'); // Show all collapsed sections
@@ -36,4 +40,5 @@ $(document).ready(function () {
         $('.collapse').collapse('hide'); // Hide all collapsed sections
         $('.term-caret').removeClass('bi-caret-up-fill').addClass('bi-caret-down-fill'); // Set all carets to down
     });
+
 });

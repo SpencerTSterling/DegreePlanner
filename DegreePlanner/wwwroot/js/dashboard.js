@@ -86,6 +86,7 @@ function redirectToCourse(courseId) {
     window.location.href = `/Course/Detail/${courseId}`;
 }
 
+
 // Document Ready Function
 $(document).ready(function () {
     // Load courses and course items on term change
@@ -114,20 +115,16 @@ $(document).ready(function () {
     });
 
     // Trigger change event to load default term's courses on page load
-    //$('#termId').trigger('change');
-
-    // Bind search box input event
-    $('#searchBox').on('input', function () {
-        performSearch($(this).val());
-    });
-    // Check if there's a selectedTermId query parameter and set it in the drop-down
     var urlParams = new URLSearchParams(window.location.search);
     var selectedTermId = urlParams.get('selectedTermId');
     if (selectedTermId) {
         $('#termId').val(selectedTermId).trigger('change');
     } else {
-        // Trigger change event to load default term's courses on page load
         $('#termId').trigger('change');
     }
 
+    // Bind search box input event
+    $('#searchBox').on('input', function () {
+        performSearch($(this).val());
+    });
 });

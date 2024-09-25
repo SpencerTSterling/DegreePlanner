@@ -20,31 +20,31 @@
 
         <!-- Term List Section -->
         <div>
-            @foreach (var termWithCourses in Model.TermsWithCourses)
+            @foreach (var TermWithCourses in Model.TermsWithCourses)
             {
                 <div class="term-section">
-                    <div class="term-header d-flex justify-content-between align-items-center" data-toggle="collapse" href="#termCourses-@termWithCourses.Term.Id" aria-expanded="false" aria-controls="termCourses-@termWithCourses.Term.Id">
+                    <div class="term-header d-flex justify-content-between align-items-center" href="#termCourses-@TermWithCourses.Term.Id" aria-expanded="false" aria-controls="termCourses-@TermWithCourses.Term.Id">
                         <div>
-                            <h5 class="mb-0">@termWithCourses.Term.Name</h5>
-                            <small>@termWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to @termWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")</small>
+                            <h5 class="mb-0">@TermWithCourses.Term.Name</h5>
+                            <small>@TermWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to @TermWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")</small>
                         </div>
                         <div>
                             <!-- Edit and Delete Icons for Term -->
-                            <a href="@Url.Action("Upsert", "Term", new { id = termWithCourses.Term.Id })" class="text-decoration-none me-2">
+                            <a href="@Url.Action("Upsert", "Term", new { id = TermWithCourses.Term.Id })" class="edit-term text-decoration-none me-2">
                                 <i class="bi bi-pencil term-icon"></i>
                             </a>
-                            <a href="@Url.Action("Delete", "Term", new { id = termWithCourses.Term.Id })" class="text-decoration-none text-danger">
+                            <a href="@Url.Action("Delete", "Term", new { id = TermWithCourses.Term.Id })" class="delete-term text-decoration-none text-danger">
                                 <i class="bi bi-trash term-icon"></i>
                             </a>
                             <i class="bi bi-caret-down-fill term-caret ms-2"></i>
                         </div>
                     </div>
 
-                    <div class="collapse mt-2" id="termCourses-@termWithCourses.Term.Id">
+                    <div class="collapse mt-2" id="termCourses-@TermWithCourses.Term.Id">
                         <ul class="list-group">
-                            @if (termWithCourses.Courses.Any())
+                            @if (TermWithCourses.Courses.Any())
                             {
-                                @foreach (var course in termWithCourses.Courses)
+                                @foreach (var course in TermWithCourses.Courses)
                                 {
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
@@ -87,7 +87,6 @@
             <a href="@Url.Action("Upsert", "Course", null)" class="btn btn-primary mb-2">Add Course</a>
         </div>
         <!-- Expand and Collaspe all buttons -->
-
         <div class="mb-3">
             <button id="expandAll" class="btn btn-info btn-sm">Expand All</button>
             <button id="collapseAll" class="btn btn-dark btn-sm">Collapse All</button>
@@ -116,10 +115,6 @@
     </div>
 </div>
 
-<script>
-    var courseDetailsUrl = '@Url.Action("CourseDetails", "DegreePlan")';
-    console.log("Course Details URL: " + courseDetailsUrl); // Check if the URL is printed in the console
-</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="~/js/degreeplan.js"></script>

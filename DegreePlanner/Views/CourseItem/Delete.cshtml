@@ -1,30 +1,40 @@
 ﻿@model CourseItem
 
-<form method="post">
+<head>
+    <link rel="stylesheet" href="~/css/courseitem.css" />
+</head>
+
+<form method="post" class="form">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">Delete Course Item</h2>
             <hr />
         </div>
+
+        <input asp-for="Id" hidden />
+
+        <!-- Name field -->
         <div class="mb-3 row p-1">
             <label asp-for="Name"></label>
             <input asp-for="Name" type="text" disabled class="form-control" />
         </div>
-        <div class="form-group mb-3 row p-1">
+
+        <!-- Description field -->
+        <div class="mb-3 row p-1">
             <label asp-for="Description"></label>
-            <textarea asp-for="Description" type="text" disabled class="form-control"></textarea>
+            <input asp-for="Description" type="text" disabled class="form-control" />
         </div>
-        <div class="form-group mb-3 row p-1">
-            <label asp-for="DueDate" class="p-0"></label>
+
+        <!-- Due Date field -->
+        <div class="mb-3 row p-1">
+            <label asp-for="DueDate"></label>
             <input asp-for="DueDate" type="date" disabled class="form-control" />
         </div>
-        <div class="form-group mb-3 row p-1">
-            <label asp-for="IsCompleted" class="control-label"></label>
-            <input asp-for="IsCompleted" type="checkbox" disabled class="form-check-input" />
-        </div>
-        <div class="form-group mb-3 row p-1">
-            <label asp-for="Type" class="control-label"></label>
-            <select asp-for="Type" disabled class="form-control">
+
+        <!-- Type field -->
+        <div class="mb-3 row p-1">
+            <label asp-for="Type"></label>
+            <select asp-for="Type" disabled class="form-select">
                 <option value="To-Do">To-Do</option>
                 <option value="Assignment">Assignment</option>
                 <option value="Quiz">Quiz</option>
@@ -39,19 +49,29 @@
                 <option value="Extra Credit">Extra Credit</option>
             </select>
         </div>
+
+        <!-- Course field -->
         <div class="form-group mb-3 row p-1">
             <label asp-for="CourseId">Course</label>
             <select asp-for="CourseId" disabled class="form-select" asp-items="ViewBag.CourseList"></select>
         </div>
-        <button type="submit" class="btn btn-danger" style="width:150px">Delete Course Item</button>
-        <a asp-controller="CourseItem" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+
+        <!-- IsCompleted checkbox -->
+        <div class="mb-3 row p-1 complete">
+            <label asp-for="IsCompleted" class="control-label">Completed</label>
+            <input asp-for="IsCompleted" type="checkbox" disabled class="form-check-input" />
+        </div>
+
+        <!-- Delete and Cancel buttons -->
+        <div class="row">
+            <button type="submit" class="btn btn-danger" style="width:150px">Delete Course Item</button>
+            <a asp-controller="Course" asp-action="Detail" asp-route-id="@Model.CourseId" class="btn btn-secondary" style="width:150px">Cancel</a>
+        </div>
+
     </div>
 </form>
 
-<!-- Validation Script-->
+<!-- Validation Script -->
 @section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-        // client-side validation
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

@@ -1,0 +1,54 @@
+﻿ul.list-group {
+    max-height: 500px; /* Set max-height to make the list scrollable */
+    overflow-y: auto; /* Enables scrolling */
+    margin-bottom: 15px;
+    padding-right: 15px; /* For scrollbar spacing */
+}
+
+.list-group-item {
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+    .list-group-item h5 {
+        font-size: medium;
+        font-weight: bold;
+    }
+
+    .list-group-item p {
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .list-group-item .form-check {
+        display: flex;
+        align-items: center;
+    }
+
+
+/* Scrollbar style for modern browsers */
+ul.list-group::-webkit-scrollbar {
+    width: 10px;
+}
+
+ul.list-group::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+    ul.list-group::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+/* Highlight for completed items */
+.list-group-item-success {
+    background-color: #d4edda;
+}
+
+/* Optional: Style the checkbox if necessary */
+.form-check-input {
+    margin-right: 10px;
+}

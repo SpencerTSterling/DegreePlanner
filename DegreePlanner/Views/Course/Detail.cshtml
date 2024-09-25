@@ -1,31 +1,61 @@
 ﻿@model CourseDetailVM
 
+<head>
+    <link rel="stylesheet" href="~/css/coursedetails.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
+            <!-- Main content (Course details) -->
             <h2>@Model.Course.Name</h2>
+            <p>Start Date: @Model.Course.StartDate.ToString("MMMM d, yyyy")</p>
+            <p>End Date: @Model.Course.EndDate.ToString("MMMM d, yyyy")</p>
+
             <p>@Html.Raw(@Model.Course.Description)</p>
-            <p><strong>Term:</strong> @Model.Course.Term.Name</p>
-            <hr />
-            <h3>Course Items</h3>
-            @if (Model.CourseItems != null && Model.CourseItems.Any())
-            {
-                <ul class="list-group">
-                    @foreach (var item in Model.CourseItems)
-                    {
-                        <li class="list-group-item @(item.DueDate.HasValue && item.DueDate < DateTime.Now ? "list-group-item-danger" : "")">
+        </div>
+
+        <div class="col-md-4">
+            <h5>Assignments</h5>
+            <ul class="list-group">
+                @foreach (var item in Model.CourseItems)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
                             <h5>@item.Name</h5>
-                            <p>@Html.Raw(@item.Description)</p>
-                            <p>Due Date: @(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "No due date")</p>
-                            <p>Type: @item.Type</p>
-                        </li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p>No course items available.</p>
-            }
+                            <p>Type: @item.Type</p> <!-- Display the CourseItem type here -->
+                            <p>Due: @item.DueDate?.ToString("MMMM d, yyyy")</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" @if (item.IsCompleted)
+                                {
+                                    <text>checked</text>
+                                }
+                                onchange="markAsComplete(@item.Id, this)" />
+                                <label class="form-check-label">Completed</label>
+                            </div>
+                        </div>
+                        <!-- Add and Delete buttons -->
+                        <div>
+                            <a href="@Url.Action("Delete", "CourseItem", new { id = item.Id, returnUrl = Url.Action("Detail", "Course", new {id = Model.Course.Id }) })" class="">
+                                <i class="bi bi-dash-circle-fill"></i>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            <!-- Add Course Item Button -->
+            <div class="mt-3">
+                <a href="@Url.Action("Upsert", "CourseItem", new { courseId = Model.Course.Id, returnUrl = Url.Action("Detail", "Course", new { id = Model.Course.Id }) })" class="btn btn-primary">
+                    <i class="bi bi-plus-circle-fill"></i> Add item
+                </a>
+            </div>
         </div>
     </div>
+
 </div>
+
+@section Scripts {
+    <script src="~/js/coursedetails.js"></script>
+}

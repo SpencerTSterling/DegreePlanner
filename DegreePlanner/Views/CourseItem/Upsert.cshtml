@@ -1,11 +1,16 @@
 ﻿@model CourseItemVM
 
-<form method="post">
+<head>
+    <link rel="stylesheet" href="~/css/courseitem.css" />
+</head>
+
+<form method="post" class="form">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">@(Model.CourseItem.Id != 0 ? "Update" : "Add") Course Item</h2>
             <hr />
         </div>
+
         <input asp-for="CourseItem.Id" hidden />
         <div class="mb-3 row p-1">
             <label asp-for="CourseItem.Name"></label>
@@ -23,13 +28,8 @@
             <span asp-validation-for="CourseItem.DueDate" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="CourseItem.IsCompleted" class="control-label"></label>
-            <input asp-for="CourseItem.IsCompleted" type="checkbox" class="form-check-input" />
-            <span asp-validation-for="CourseItem.IsCompleted" class="text-danger"></span>
-        </div>
-        <div class="mb-3 row p-1">
-            <label asp-for="CourseItem.Type" class="control-label"></label>
-            <select asp-for="CourseItem.Type" class="form-control" asp-items="@Model.TypeList"></select>
+            <label asp-for="CourseItem.Type"></label>
+            <select asp-for="CourseItem.Type" class="form-select" asp-items="@Model.TypeList"></select>
             <span asp-validation-for="CourseItem.Type" class="text-danger"></span>
         </div>
         <div class="form-group mb-3 row p-1">
@@ -37,23 +37,25 @@
             <select asp-for="CourseItem.CourseId" class="form-select" asp-items="@Model.CourseList"></select>
             <span asp-validation-for="CourseItem.CourseId" class="text-danger"></span>
         </div>
+        <div class="mb-3 row p-1 complete">
+            <label asp-for="CourseItem.IsCompleted" class="control-label">Completed</label>
+            <input asp-for="CourseItem.IsCompleted" type="checkbox" class="form-check-input" />
+            <span asp-validation-for="CourseItem.IsCompleted" class="text-danger"></span>
+        </div>
 
         @if (Model.CourseItem.Id != 0)
         {
-            <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+            <button type="submit" class="btn btn-primary">Update</button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary" style="width:150px">Add</button>
+            <button type="submit" class="btn btn-primary">Add</button>
         }
-        <a asp-controller="CourseItem" asp-action="Index" class="p-3" style="width:150px">Cancel</a>
+        <a asp-controller="Course" asp-action="Detail" asp-route-id="@Model.CourseItem.CourseId" class="btn btn-secondary">Cancel</a>
+
     </div>
 </form>
 
-<!-- Scripts -->
 @section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-        // client-side validation
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

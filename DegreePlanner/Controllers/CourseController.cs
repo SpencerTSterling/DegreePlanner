@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DegreePlanner.Controllers
 {
@@ -52,6 +53,11 @@ namespace DegreePlanner.Controllers
             };
             if (id == null || id == 0) // if ID doesn't exist
             {
+
+                // Initialize default values for StartDate and EndDate to today's date
+                courseVM.Course.StartDate = DateTime.Today;
+                courseVM.Course.EndDate = DateTime.Today;
+
                 // Create
                 return View(courseVM);
             }
@@ -147,6 +153,24 @@ namespace DegreePlanner.Controllers
             };
 
             return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult MarkCourseItemAsComplete(int id, bool isCompleted)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var courseItem = _uow.CourseItem.Get(ci => ci.Id == id && ci.Course.Term.UserId == userId);
+            if (courseItem == null)
+            {
+                return NotFound();
+            }
+
+            courseItem.IsCompleted = isCompleted;
+            _uow.Save();
+
+            return Ok();
         }
 
         #endregion
