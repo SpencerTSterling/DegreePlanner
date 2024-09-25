@@ -53,6 +53,11 @@ namespace DegreePlanner.Controllers
             };
             if (id == null || id == 0) // if ID doesn't exist
             {
+
+                // Initialize default values for StartDate and EndDate to today's date
+                courseVM.Course.StartDate = DateTime.Today;
+                courseVM.Course.EndDate = DateTime.Today;
+
                 // Create
                 return View(courseVM);
             }

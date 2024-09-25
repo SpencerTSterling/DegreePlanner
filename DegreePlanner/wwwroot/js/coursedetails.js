@@ -1,4 +1,4 @@
-﻿// Function to mark course item as complete
+﻿
 function markAsComplete(itemId, checkbox) {
     console.log('Checkbox clicked for item ID:', itemId, 'Completed:', checkbox.checked);
     var isCompleted = checkbox.checked;
