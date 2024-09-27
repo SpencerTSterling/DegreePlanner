@@ -1,0 +1,42 @@
+﻿.homepage-container {
+
+    min-height: calc(100vh - 100px); /* Adjusts for header/footer space */
+
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.display-4 {
+    color: black;
+    font-size: 4rem; 
+    margin-bottom: 20px;
+    padding: 20px; /* Adds padding to give more space around heading */
+}
+
+.lead {
+    color: darkslategray
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+}
+
+.btn-dark {
+    border-radius: 30px;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.3rem;
+}
+
+    .btn-light:hover {
+        background-color: #f0f0f0;
+        color: black;
+    }
+
+/* Journal icon styling */
+.bi-journals {
+    font-size: 1.5rem; /* Larger icon */
+    color: white;
+}
