@@ -18,6 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DegreePlanner.DataAccess\DegreePlanner.DataAccess.csproj" />
+    <ProjectReference Include="..\DegreePlanner.Models\DegreePlanner.Models.csproj" />
+    <ProjectReference Include="..\DegreePlanner.Utility\DegreePlanner.Utility.csproj" />
+    <ProjectReference Include="..\DegreePlanner\DegreePlannerWeb.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
