@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore;
 using capstone.DegreePlanner.DataAccess.Data;
 using DegreePlanner.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Mvc;
+using DegreePlanner.Models.ViewModels;
 
 namespace DegreePlanner.Tests
 {
-    internal class TermControllerTests
+    public class TermControllerTests
     {
 
         // Mocking the required dependencies
@@ -38,5 +40,41 @@ namespace DegreePlanner.Tests
             _controller = new TermController(_mockUnitOfWork.Object, _mockUserManager.Object);
         }
 
+
+        [Fact]
+        public async Task Upsert_Post_ReturnsRedirectToActionResult_WhenTermIsValid()
+        {
+            // Arrange: Set up mock data
+            var userId = "test-user-id";
+            var user = new IdentityUser { Id = userId };
+
+            // Set up the mock to return a valid user ID
+            _mockUserManager.Setup(um => um.GetUserId(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).Returns(userId);
+            _mockUserManager.Setup(um => um.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(user);
+
+            // Create a valid Term ViewModel
+            var termVM = new TermVM
+            {
+                Term = new Term
+                {
+                    Id = 0, // This simulates a new term being created
+                    Name = "Spring 2024",
+                    StartDate = new DateTime(2024, 1, 1),
+                    EndDate = new DateTime(2024, 5, 1)
+                }
+            };
+
+            // Act: Call the Upsert method with valid data
+            var result = await _controller.UpsertAsync(termVM);
+
+            // Assert: Verify the expected behavior
+            var redirectResult = Assert.IsType<RedirectToActionResult>(result); // Expect a redirect
+            Assert.Equal("Index", redirectResult.ActionName); // Redirects to "Index" action in DegreePlan
+
+            // Verify that Add and Save were called
+            _mockUnitOfWork.Verify(uow => uow.Term.Add(It.IsAny<Term>()), Times.Once); // Ensure Add was called
+            _mockUnitOfWork.Verify(uow => uow.Save(), Times.Once); // Ensure Save was called
+        }
     }
+
 }
