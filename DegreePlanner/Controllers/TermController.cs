@@ -147,6 +147,11 @@ namespace DegreePlanner.Controllers
             return RedirectToAction("Index", "DegreePlan");
         }
 
-        #endregion 
+        public void Upsert(TermVM termVM)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
