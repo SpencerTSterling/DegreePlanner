@@ -58,7 +58,6 @@ namespace DegreePlanner.Controllers
         public async Task<IActionResult> UpsertAsync(TermVM termVM)
         {
 
-
             // Date validation
             if (termVM.Term.StartDate > termVM.Term.EndDate)
             {
@@ -145,11 +144,6 @@ namespace DegreePlanner.Controllers
             TempData["success"] = "Term deleted successfully";
             //Redirect to index
             return RedirectToAction("Index", "DegreePlan");
-        }
-
-        public void Upsert(TermVM termVM)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

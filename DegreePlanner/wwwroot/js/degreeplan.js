@@ -11,8 +11,16 @@
 }
 $(document).ready(function () {
 
-    console.log("Document is ready!");
+    console.log("Document is ready!!!!!!!!!!!");
+    $('.edit-term').on('click', function (e) {
+        console.log('Edit button clicked');
+        event.stopPropagation(); 
+    });
 
+    $('.delete-term').on('click', function (e) {
+        console.log('Delete button clicked');
+        event.stopPropagation(); 
+    });
 
     // Caret toggle logic
 

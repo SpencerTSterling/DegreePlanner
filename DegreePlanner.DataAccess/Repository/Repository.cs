@@ -22,9 +22,20 @@ namespace DegreePlanner.DataAccess.Repository
             // ex. _db.Terms == dbSet
         }
 
-        public void Update(T entity)
+        public void Update(T entity, object id)
         {
-            dbSet.Update(entity);
+            // Find the existing entity by its ID
+            var existingEntity = dbSet.Find(id);
+            if (existingEntity != null)
+            {
+                // Update the values of the existing entity
+                _db.Entry(existingEntity).CurrentValues.SetValues(entity);
+            }
+            else
+            {
+                // Optionally handle the case where the entity does not exist
+                throw new Exception("Entity not found.");
+            }
         }
 
         public void Add(T entity)
@@ -93,6 +104,11 @@ namespace DegreePlanner.DataAccess.Repository
             }
             // Execute the query and return the result as a list.
             return query.ToList();
+        }
+
+        public void Update(T entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
