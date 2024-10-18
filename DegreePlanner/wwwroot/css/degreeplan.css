@@ -29,11 +29,13 @@
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
+    position:relative;
 }
 
     .term-header:hover {
-        background-color: #f8f9fa
+        background-color: #f8f9fa;
     }
+
 
 .term-caret {
     transition: transform 0.3s;
