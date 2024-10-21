@@ -51,3 +51,11 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
     for title, datetime stamps, description, and status.
     The report generation takes place in the Index action of the CourseController, which retrieves the courses specfic to the logged-in user.
     The data is rendered in a table format with columns and rows with information about the course.
+
+5. Validation functionality 
+
+    -Model Level validation: The models inlcude annotations that provide validation, such as [Required] for Name, [MaxLength] to limit the length of string properties,
+    or [DateType(DataType.Date)] to ensure correct input format.
+    -Inside of the Controllers are custom validation logic, e.g Start Dates cannot be later than end dates.
+     Ownsership is verfied for terms, courses, and course items before updating to ensure the entity being updated belongs to the logged-in user.
+     And ModelState is checked for validation before adding/updating an entity.

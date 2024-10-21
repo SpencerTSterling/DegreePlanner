@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DegreePlanner.Models
 {
+    // This model includes data annotations for validation:
+    // - Required attributes ensure essential fields are filled.
+
     public class CourseItem
     {
         [Key]

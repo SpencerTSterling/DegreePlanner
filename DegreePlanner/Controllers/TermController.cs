@@ -57,7 +57,7 @@ namespace DegreePlanner.Controllers
         [HttpPost]
         public async Task<IActionResult> UpsertAsync(TermVM termVM)
         {
-
+            // Custom Controller Logic: Ensure that Start Date is not later than the End date.
             // Date validation
             if (termVM.Term.StartDate > termVM.Term.EndDate)
             {

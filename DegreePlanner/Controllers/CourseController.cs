@@ -81,6 +81,7 @@ namespace DegreePlanner.Controllers
             // Get the Term selection (ensure it belongs to the logged in user)
             Term selectedTerm = _uow.Term.Get(t => t.Id == courseVM.Course.TermId && t.UserId == userId);
 
+            // Custom Controller Logic: Ensure that Start Date is not later than the End date.
             // Date validation
             if (courseVM.Course.StartDate > courseVM.Course.EndDate)
             {
