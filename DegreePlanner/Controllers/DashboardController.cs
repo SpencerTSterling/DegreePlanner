@@ -86,6 +86,14 @@ namespace DegreePlannerWeb.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// The Search functionality that returns a row of results based on input
+        /// and returns displays based on input. 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+
         [HttpGet]
         public IActionResult Search(string query)
         {

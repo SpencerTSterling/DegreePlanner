@@ -23,3 +23,11 @@ Encapsulation:
      - The ApplicationDbContext instance (_db) is private and accessed only through public methods. 
      - In the DegreePlannerWeb project inside of the Controller code, private fields like _uow (unit of work) and _userManager 
      are not accessible outside of the Controller class. Dependencies are injected, encapsulating object creation outside of the controller. 
+
+
+2. Search functionality with multiple row results and displays. 
+
+On the Dashboard page, a logged-in user can use the search bar to look up Terms, Courses, or Course Items (results show after three inputs)
+    -Searching for Terms: Searching and selecting a term from the search results redirect the user to the Dashboard, with the drop-down for Terms populated with the searched term. 
+    -Searching for Courses: Searcing and selecting a course from the search results redirects the user to the Detail page for that course. 
+    -Searching for CourseItems: Searching and selecting a course item from the search results redirects the user to the Detail page for the course the item belongs to. 
