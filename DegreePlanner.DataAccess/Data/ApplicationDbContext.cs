@@ -13,6 +13,7 @@ namespace capstone.DegreePlanner.DataAccess.Data
                 
         }
 
+        // Define the DbSets for the entities to manage them in the database
         public DbSet<Term> Terms { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseItem> CourseItems { get; set; }

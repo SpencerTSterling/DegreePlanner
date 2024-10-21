@@ -1,6 +1,6 @@
 ﻿Project Requirements Documentation 
 
-B. esign and develop a fully functional full stack (mobile or web) software product that addresses your identified business problem or organizational need. 
+B. Design and develop a fully functional full stack (mobile or web) software product that addresses your identified business problem or organizational need. 
 Include each of the following attributes, as they are the minimum required elements for the application:
 
 1. Code including inheritance, polymorphism, and encapsulation
@@ -13,13 +13,13 @@ Inheritance:
 
 
 Polymorphism:
-    The methods inside of repository classes work on the different types of entities, and demonstrate polymorpishm through method overriding and interfaces. 
+    The methods inside of repository classes work on the different types of entities, and demonstrate polymorphism  through method overriding and interfaces. 
      - Interfaces like IRepository<T> define a contract that all repositories must follow.
      - The methods Get() and GetAll() in Repository<T> can operate on any entity type, such as Term, Course, and CourseItem
 
 Encapsulation: 
     The way the repository classes and the unit of work interact demonstrates encapsulation. 
-     - The repository classes encapsulate data access logic within methods, and the unit of work encapulates coordination among the repositories.
+     - The repository classes encapsulate data access logic within methods, and the unit of work encapsulates coordination among the repositories.
      - The ApplicationDbContext instance (_db) is private and accessed only through public methods. 
      - In the DegreePlannerWeb project inside of the Controller code, private fields like _uow (unit of work) and _userManager 
      are not accessible outside of the Controller class. Dependencies are injected, encapsulating object creation outside of the controller. 
@@ -31,3 +31,16 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
     -Searching for Terms: Searching and selecting a term from the search results redirect the user to the Dashboard, with the drop-down for Terms populated with the searched term. 
     -Searching for Courses: Searcing and selecting a course from the search results redirects the user to the Detail page for that course. 
     -Searching for CourseItems: Searching and selecting a course item from the search results redirects the user to the Detail page for the course the item belongs to. 
+
+3. A Database component with the functionality to securely add, modify, and delete the data
+
+    -In the Repository<T> class, the following methods satisfy the requirement:
+        -Add(T entity) adds a new entity to the database.
+        -Update(T entity, object id) updates an existing entity with the passed in id, ensuring it is owned by the corrected logged-in user.
+        -Delete(T entity) deletes an entity after confirming its existence.
+
+    The application uses model validation to ensure all inputted data meets the required criteria before any database operation is performed. 
+    This ensures only valid data is processed and helps prevent issues like SQL injection.
+
+    The application also uses ASP.NET Core Identity for user authenication and authorization, meaning only authenicated users
+    can perform actions such as adding, modifying, or deleting their own data. 
