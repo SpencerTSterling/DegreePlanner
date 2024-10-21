@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DegreePlanner.Utility", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DegreePlanner.Tests", "DegreePlanner.Tests\DegreePlanner.Tests.csproj", "{C88D8ADB-7C9D-43D5-B957-34DE54C2D30B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2C4952B-C666-46B6-849E-3271B525F756}"
+	ProjectSection(SolutionItems) = preProject
+		ProjectRequirements.txt = ProjectRequirements.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

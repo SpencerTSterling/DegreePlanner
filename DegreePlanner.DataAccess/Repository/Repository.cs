@@ -10,10 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DegreePlanner.DataAccess.Repository
 {
+
+    // This class is the base class for all repositories. 
+    // Other reposistories interiet from this class.
+
     public class Repository<T> : IRepository<T> where T : class
     {
+        // _db is a private field that holds the database context, showcasing encapsulation
         private readonly ApplicationDbContext _db;
-        internal DbSet<T> dbSet;
+        internal DbSet<T> dbSet; // The internal visibility allows the derived classes to access this property
 
         public Repository(ApplicationDbContext db)
         {
@@ -53,8 +58,13 @@ namespace DegreePlanner.DataAccess.Repository
             dbSet.RemoveRange(entity);
         }
 
+
+        // The generic type T allows for different entity types, showcasing polymorphism
+        // The methods Get and GetAll work for different entity types like Term, Course, and CourseItem
+
         /// <summary>
         /// Retrieves a single entity that matches the specified filter.
+        /// This method uses polymorphism to work with any class type T.
         /// </summary>
         /// <param name="filter"> An expression to filter the entities. </param>
         /// <param name="includeProperties"> Comma seperated list of related entities to inclide in the query result. 
@@ -80,6 +90,7 @@ namespace DegreePlanner.DataAccess.Repository
 
         /// <summary>
         /// Retrieves all entities that match the specified filter, if provided.
+        /// This method uses polymorphism to handle collections of any class type T.
         /// </summary>
         /// <param name="filter"> An optional expression to filter the entities. If null, all entities are retrieved. </param>
         /// <param name="includeProperties"> A comma-separated list of related entities to include in the query result. </param>

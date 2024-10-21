@@ -1,0 +1,25 @@
+﻿Project Requirements Documentation 
+
+B. esign and develop a fully functional full stack (mobile or web) software product that addresses your identified business problem or organizational need. 
+Include each of the following attributes, as they are the minimum required elements for the application:
+
+1. Code including inheritance, polymorphism, and encapsulation
+
+Inheritance: 
+    The repository classes in the project demonstrate inheritance by extending a generic base repository class.
+     - TermRepository inherits from Repository<Term>.
+     - CourseRepository inherits from Repository<Course>.
+     - CourseItemRepository inherits from Repository<CourseItem>.
+
+
+Polymorphism:
+    The methods inside of repository classes work on the different types of entities, and demonstrate polymorpishm through method overriding and interfaces. 
+     - Interfaces like IRepository<T> define a contract that all repositories must follow.
+     - The methods Get() and GetAll() in Repository<T> can operate on any entity type, such as Term, Course, and CourseItem
+
+Encapsulation: 
+    The way the repository classes and the unit of work interact demonstrates encapsulation. 
+     - The repository classes encapsulate data access logic within methods, and the unit of work encapulates coordination among the repositories.
+     - The ApplicationDbContext instance (_db) is private and accessed only through public methods. 
+     - In the DegreePlannerWeb project inside of the Controller code, private fields like _uow (unit of work) and _userManager 
+     are not accessible outside of the Controller class. Dependencies are injected, encapsulating object creation outside of the controller. 
