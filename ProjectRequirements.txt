@@ -54,8 +54,25 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
 
 5. Validation functionality 
 
-    -Model Level validation: The models inlcude annotations that provide validation, such as [Required] for Name, [MaxLength] to limit the length of string properties,
+    -Model Level validation: The models include annotations that provide validation, such as [Required] for Name, [MaxLength] to limit the length of string properties,
     or [DateType(DataType.Date)] to ensure correct input format.
     -Inside of the Controllers are custom validation logic, e.g Start Dates cannot be later than end dates.
-     Ownsership is verfied for terms, courses, and course items before updating to ensure the entity being updated belongs to the logged-in user.
+     Ownership is verified for terms, courses, and course items before updating to ensure the entity being updated belongs to the logged-in user.
      And ModelState is checked for validation before adding/updating an entity.
+
+6. Industry-appropriate security features
+
+    - Secure User Authentication: The application utilizes ASP.NET Core Identity, which provides an authentication framework 
+      that ensures only authorized users can access the application.
+
+    - Role-Based Access Control: Implementing role-based access control (RBAC) allows the application to restrict access to specific areas based on user role
+
+    - Password Security: User passwords are hashed using secure algorithms so that they are never stored in plain text. 
+      This protects user credentials even if the database is compromised.
+
+    - Model Validation: The use of data annotations for model validation ensures that all inputs are validated on the server side
+
+    - Entity Framework generates parameterized queries which prevents SQL injection attacks.
+      The use of object relational mapping makes the application less vulnerable. 
+
+    - ASP.NET Core MVC has CSFR protection built in with a framework that has anti-forgery tokens.
