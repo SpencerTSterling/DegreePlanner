@@ -10,8 +10,12 @@ using System.Threading.Tasks;
 
 namespace DegreePlanner.DataAccess.Repository
 {
+    // CourseRepository interirs from Repository, showcasing inheritance
+    // This means CourseRepository can use methods defined in the base Repository class. 
+
     public class CourseRepository : Repository<Course>, ICourseRepository
     {
+        // _db is a private field that holds the database context, showcasing encapsulation
         private readonly ApplicationDbContext _db;
         public CourseRepository(ApplicationDbContext db) : base(db)
         {

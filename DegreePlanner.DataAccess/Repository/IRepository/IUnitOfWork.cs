@@ -8,6 +8,8 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
+        // New repositories can be added
+
         //The repositories:
         ITermRepository Term { get; }
         ICourseRepository Course { get; }

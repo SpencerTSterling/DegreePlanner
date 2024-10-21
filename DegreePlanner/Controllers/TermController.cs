@@ -54,10 +54,13 @@ namespace DegreePlanner.Controllers
 
         }
 
+        // Asynchronous programming (async/await) enables the application to handle 
+        // multiple simultaneous requests, improving scalability under load.
+
         [HttpPost]
         public async Task<IActionResult> UpsertAsync(TermVM termVM)
         {
-
+            // Custom Controller Logic: Ensure that Start Date is not later than the End date.
             // Date validation
             if (termVM.Term.StartDate > termVM.Term.EndDate)
             {

@@ -11,12 +11,12 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
     {
         // T - Term, Course, CourseItem
 
-        void Update(T entity);
+        void Update(T entity); // Updates an existing entity
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
         // For link expressions in FirstOrDefault() methods
         T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
-        void Add(T entity);
-        void Delete(T entity);
+        void Add(T entity); // Adds a new entity
+        void Delete(T entity); // Deletes an existing entity
         // Delete a range/multiple objects in a column
         void DeleteRange(IEnumerable<T> entities);
     }

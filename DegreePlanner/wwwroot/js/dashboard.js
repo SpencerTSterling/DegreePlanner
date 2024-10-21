@@ -21,6 +21,8 @@ function markAsComplete(itemId, checkbox) {
         });
 }
 
+// Search functionality that returns rows for Terms, Courses, and CourseItems based on input
+// And returns displays for Terms, Courses, and CourseItems
 // Function to perform search
 function performSearch(query) {
     if (query.length < 3) {

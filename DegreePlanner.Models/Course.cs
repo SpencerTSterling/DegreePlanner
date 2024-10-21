@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DegreePlanner.Models
 {
+
+    // This model includes data annotations for validation:
+    // - Required attributes ensure essential fields are filled.
+    // - DataType specifies the expected format for date fields.
     public class Course
     {
         [Key]

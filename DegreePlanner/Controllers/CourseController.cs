@@ -29,6 +29,7 @@ namespace DegreePlanner.Controllers
             // Get logged in user's ID
             var userId = _userManager.GetUserId(User);
 
+            // B4. This list serves as the basis for generating a report with multiple columns and rows.
             // Fetch courses only associated with the logged in user
             List<Course> objCourseList = _uow.Course.GetAll(c => c.Term.UserId == userId, includeProperties: "Term").ToList();
             return View(objCourseList);
@@ -80,6 +81,7 @@ namespace DegreePlanner.Controllers
             // Get the Term selection (ensure it belongs to the logged in user)
             Term selectedTerm = _uow.Term.Get(t => t.Id == courseVM.Course.TermId && t.UserId == userId);
 
+            // Custom Controller Logic: Ensure that Start Date is not later than the End date.
             // Date validation
             if (courseVM.Course.StartDate > courseVM.Course.EndDate)
             {
