@@ -29,12 +29,19 @@
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
-    position:relative;
+    align-items: center;
+    display:flex;
 }
 
     .term-header:hover {
         background-color: #f8f9fa;
     }
+
+.term-controls {
+    display: flex; /* Use flexbox for the controls */
+    align-items: center; /* Center align items */
+    margin-left: auto;
+}
 
 
 .term-caret {
