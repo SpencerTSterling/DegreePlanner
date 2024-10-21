@@ -29,6 +29,7 @@ namespace DegreePlanner.Controllers
             // Get logged in user's ID
             var userId = _userManager.GetUserId(User);
 
+            // B4. This list serves as the basis for generating a report with multiple columns and rows.
             // Fetch courses only associated with the logged in user
             List<Course> objCourseList = _uow.Course.GetAll(c => c.Term.UserId == userId, includeProperties: "Term").ToList();
             return View(objCourseList);

@@ -44,3 +44,10 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
 
     The application also uses ASP.NET Core Identity for user authenication and authorization, meaning only authenicated users
     can perform actions such as adding, modifying, or deleting their own data. 
+
+4. Ability to generate reports with multiple columns, multiple rows, date-time stamps, and title
+
+    The course page accessible for logged in users displays a report of all the user's courses, including multiple columns and rows
+    for title, datetime stamps, description, and status.
+    The report generation takes place in the Index action of the CourseController, which retrieves the courses specfic to the logged-in user.
+    The data is rendered in a table format with columns and rows with information about the course.
