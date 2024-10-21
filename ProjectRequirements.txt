@@ -90,3 +90,20 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
 
     It also simplifies the querying process for data. This was done in the controller logic with methods like GetAll with the filter pattern.
     These common operations like GetAll, Add, Update, and Delete can be reused across different repositories and controllers when the application grows.
+
+8. A user friendly, functional GUI
+
+    The application has a user-friendly navigation structure that allows the user to find what they need. 
+    - The home page has a "Get Started" link that takes the user to the dashboard.
+    - The dashboard is simple and minimalist: there is a drop down for terms, denoted by "Select Term", a Search bar, a list for To-Do items, and a grid for courses 
+      that belong to the selected term. Each term has a link for "View Details" that redirect the user to that course's detail page. 
+    - The DegreePlan follows the same style of being clean and minimalist, with clear icons for editing and deleting, and buttons that explain their purpose clearly. 
+      Add Term and Add Course are clear on the side. The Terms have a 'caret' that expand to show the courses inside that course and collaspe to hide the courses. 
+      The Expand all buttons expands all the terms. Collaspe all collaspes all the terms. 
+    - Forms for adding/updating Terms, Courses, and Course items are clean, with errors that appear in red text that are easy to read and see. 
+
+    The application also has a reposonsive design that adapts to different screen sizes. 
+
+    There are success messages for adding a course or term that provide the user with immediate feedback for their actions. 
+
+    Each page maintains a consistent layout and design elements.
