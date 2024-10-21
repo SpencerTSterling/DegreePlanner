@@ -27,8 +27,9 @@ $(document).ready(function () {
     $('.term-header').click(function (e) {
         e.preventDefault(); // Prevent default behavior
 
-        var target = $(this).attr('href');  // Get the target collapse ID
-        $(target).collapse('toggle');  // Toggle collapse
+        // Use the data attribute or directly get the term ID from the parent element
+        var termId = $(this).next('.collapse').attr('id'); // Get the ID of the collapse element
+        $('#' + termId).collapse('toggle');  // Toggle collapse
 
         // Toggle the caret icon
         var $caret = $(this).find('.term-caret');
