@@ -9,6 +9,8 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
 {
     public interface ICourseRepository : IRepository<Course>
     {
-        // Added fuctions for Terms 
+        // Added fuctions for Courses 
+
+        // Additional methods specific to Course can be defined here
     }
 }

@@ -10,5 +10,7 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
     public interface ICourseItemRepository : IRepository<CourseItem>
     {
         // Added functions for CourseItems
+
+        // Additional methods specific to CourseItems can be defined here
     }
 }

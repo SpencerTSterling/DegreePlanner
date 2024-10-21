@@ -54,6 +54,9 @@ namespace DegreePlanner.Controllers
 
         }
 
+        // Asynchronous programming (async/await) enables the application to handle 
+        // multiple simultaneous requests, improving scalability under load.
+
         [HttpPost]
         public async Task<IActionResult> UpsertAsync(TermVM termVM)
         {

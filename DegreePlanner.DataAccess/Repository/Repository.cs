@@ -11,8 +11,12 @@ using Microsoft.EntityFrameworkCore;
 namespace DegreePlanner.DataAccess.Repository
 {
 
+    // Repository pattern implementation allows for easier data access management 
+    // and makes it simpler to scale data sources in the future.
+
+
     // This class is the base class for all repositories. 
-    // Other reposistories interiet from this class.
+    // Other reposistories inheriet from this class.
 
     public class Repository<T> : IRepository<T> where T : class
     {

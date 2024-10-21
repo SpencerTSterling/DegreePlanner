@@ -76,3 +76,17 @@ On the Dashboard page, a logged-in user can use the search bar to look up Terms,
       The use of object relational mapping makes the application less vulnerable. 
 
     - ASP.NET Core MVC has CSFR protection built in with a framework that has anti-forgery tokens.
+
+
+7. Design elements that make the application scalable.
+
+    The repository pattern in this application separates data access logic from business logic. 
+    Each repository is dedicated to a specific entity, allowing for modifications to individual components without impacting other parts of the application.
+    This design was implemented with scalability in mind.
+
+    Additionally, specific methods related to each entity can be defined within their repositories and interfaces.
+    Different repositories can be easily added in the future in addition to Terms, Courses, and Course Items, 
+    to include entities like Instructors, Universities, etc eventually. In the UnitOfWork class, new repository interfaces can be integrated easily. 
+
+    It also simplifies the querying process for data. This was done in the controller logic with methods like GetAll with the filter pattern.
+    These common operations like GetAll, Add, Update, and Delete can be reused across different repositories and controllers when the application grows.

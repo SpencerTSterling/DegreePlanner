@@ -10,5 +10,7 @@ namespace DegreePlanner.DataAccess.Repository.IRepository
     public interface ITermRepository : IRepository<Term>
     {
         // Added fuctions for Terms 
+
+        // Additional methods specific to Term can be defined here
     }
 }
