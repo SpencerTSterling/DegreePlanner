@@ -1,0 +1,109 @@
+﻿Project Requirements Documentation 
+
+B. Design and develop a fully functional full stack (mobile or web) software product that addresses your identified business problem or organizational need. 
+Include each of the following attributes, as they are the minimum required elements for the application:
+
+1. Code including inheritance, polymorphism, and encapsulation
+
+Inheritance: 
+    The repository classes in the project demonstrate inheritance by extending a generic base repository class.
+     - TermRepository inherits from Repository<Term>.
+     - CourseRepository inherits from Repository<Course>.
+     - CourseItemRepository inherits from Repository<CourseItem>.
+
+
+Polymorphism:
+    The methods inside of repository classes work on the different types of entities, and demonstrate polymorphism  through method overriding and interfaces. 
+     - Interfaces like IRepository<T> define a contract that all repositories must follow.
+     - The methods Get() and GetAll() in Repository<T> can operate on any entity type, such as Term, Course, and CourseItem
+
+Encapsulation: 
+    The way the repository classes and the unit of work interact demonstrates encapsulation. 
+     - The repository classes encapsulate data access logic within methods, and the unit of work encapsulates coordination among the repositories.
+     - The ApplicationDbContext instance (_db) is private and accessed only through public methods. 
+     - In the DegreePlannerWeb project inside of the Controller code, private fields like _uow (unit of work) and _userManager 
+     are not accessible outside of the Controller class. Dependencies are injected, encapsulating object creation outside of the controller. 
+
+
+2. Search functionality with multiple row results and displays. 
+
+On the Dashboard page, a logged-in user can use the search bar to look up Terms, Courses, or Course Items (results show after three inputs)
+    -Searching for Terms: Searching and selecting a term from the search results redirect the user to the Dashboard, with the drop-down for Terms populated with the searched term. 
+    -Searching for Courses: Searcing and selecting a course from the search results redirects the user to the Detail page for that course. 
+    -Searching for CourseItems: Searching and selecting a course item from the search results redirects the user to the Detail page for the course the item belongs to. 
+
+3. A Database component with the functionality to securely add, modify, and delete the data
+
+    -In the Repository<T> class, the following methods satisfy the requirement:
+        -Add(T entity) adds a new entity to the database.
+        -Update(T entity, object id) updates an existing entity with the passed in id, ensuring it is owned by the corrected logged-in user.
+        -Delete(T entity) deletes an entity after confirming its existence.
+
+    The application uses model validation to ensure all inputted data meets the required criteria before any database operation is performed. 
+    This ensures only valid data is processed and helps prevent issues like SQL injection.
+
+    The application also uses ASP.NET Core Identity for user authenication and authorization, meaning only authenicated users
+    can perform actions such as adding, modifying, or deleting their own data. 
+
+4. Ability to generate reports with multiple columns, multiple rows, date-time stamps, and title
+
+    The course page accessible for logged in users displays a report of all the user's courses, including multiple columns and rows
+    for title, datetime stamps, description, and status.
+    The report generation takes place in the Index action of the CourseController, which retrieves the courses specfic to the logged-in user.
+    The data is rendered in a table format with columns and rows with information about the course.
+
+5. Validation functionality 
+
+    -Model Level validation: The models include annotations that provide validation, such as [Required] for Name, [MaxLength] to limit the length of string properties,
+    or [DateType(DataType.Date)] to ensure correct input format.
+    -Inside of the Controllers are custom validation logic, e.g Start Dates cannot be later than end dates.
+     Ownership is verified for terms, courses, and course items before updating to ensure the entity being updated belongs to the logged-in user.
+     And ModelState is checked for validation before adding/updating an entity.
+
+6. Industry-appropriate security features
+
+    - Secure User Authentication: The application utilizes ASP.NET Core Identity, which provides an authentication framework 
+      that ensures only authorized users can access the application.
+
+    - Role-Based Access Control: Implementing role-based access control (RBAC) allows the application to restrict access to specific areas based on user role
+
+    - Password Security: User passwords are hashed using secure algorithms so that they are never stored in plain text. 
+      This protects user credentials even if the database is compromised.
+
+    - Model Validation: The use of data annotations for model validation ensures that all inputs are validated on the server side
+
+    - Entity Framework generates parameterized queries which prevents SQL injection attacks.
+      The use of object relational mapping makes the application less vulnerable. 
+
+    - ASP.NET Core MVC has CSFR protection built in with a framework that has anti-forgery tokens.
+
+
+7. Design elements that make the application scalable.
+
+    The repository pattern in this application separates data access logic from business logic. 
+    Each repository is dedicated to a specific entity, allowing for modifications to individual components without impacting other parts of the application.
+    This design was implemented with scalability in mind.
+
+    Additionally, specific methods related to each entity can be defined within their repositories and interfaces.
+    Different repositories can be easily added in the future in addition to Terms, Courses, and Course Items, 
+    to include entities like Instructors, Universities, etc eventually. In the UnitOfWork class, new repository interfaces can be integrated easily. 
+
+    It also simplifies the querying process for data. This was done in the controller logic with methods like GetAll with the filter pattern.
+    These common operations like GetAll, Add, Update, and Delete can be reused across different repositories and controllers when the application grows.
+
+8. A user friendly, functional GUI
+
+    The application has a user-friendly navigation structure that allows the user to find what they need. 
+    - The home page has a "Get Started" link that takes the user to the dashboard.
+    - The dashboard is simple and minimalist: there is a drop down for terms, denoted by "Select Term", a Search bar, a list for To-Do items, and a grid for courses 
+      that belong to the selected term. Each term has a link for "View Details" that redirect the user to that course's detail page. 
+    - The DegreePlan follows the same style of being clean and minimalist, with clear icons for editing and deleting, and buttons that explain their purpose clearly. 
+      Add Term and Add Course are clear on the side. The Terms have a 'caret' that expand to show the courses inside that course and collaspe to hide the courses. 
+      The Expand all buttons expands all the terms. Collaspe all collaspes all the terms. 
+    - Forms for adding/updating Terms, Courses, and Course items are clean, with errors that appear in red text that are easy to read and see. 
+
+    The application also has a reposonsive design that adapts to different screen sizes. 
+
+    There are success messages for adding a course or term that provide the user with immediate feedback for their actions. 
+
+    Each page maintains a consistent layout and design elements.
