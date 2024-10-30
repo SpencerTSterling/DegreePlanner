@@ -3,10 +3,9 @@
 <head>
     <link rel="stylesheet" href="~/css/degreeplan.css" />
 </head>
+
 <div class="row">
-
     <div class="row mb-4">
-
         <div class="col-md-6 text-right">
             <!-- Heading -->
             <h2 class="display-5">
@@ -15,67 +14,76 @@
         </div>
     </div>
 
-
     <div class="col-md-8">
-
         <!-- Term List Section -->
         <div>
-            @foreach (var TermWithCourses in Model.TermsWithCourses)
+            @if (Model.TermsWithCourses.Any())
             {
-                <div class="term-section">
-                    <div class="term-header d-flex align-items-center">
-                        <div>
-                            <h5 class="mb-0">@TermWithCourses.Term.Name</h5>
-                            <small>@TermWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to @TermWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")</small>
+                @foreach (var TermWithCourses in Model.TermsWithCourses)
+                {
+                    <div class="term-section">
+                        <div class="term-header d-flex align-items-center">
+                            <div>
+                                <h5 class="mb-0">@TermWithCourses.Term.Name</h5>
+                                <small>@TermWithCourses.Term.StartDate.Value.ToString("MMMM d, yyyy") to @TermWithCourses.Term.EndDate.Value.ToString("MMMM d, yyyy")</small>
+                            </div>
+                            <div class="term-controls">
+                                <!-- wrapper for buttons and caret -->
+                                <a href="@Url.Action("Upsert", "Term", new { id = TermWithCourses.Term.Id })" class="edit-term text-decoration-none me-2">
+                                    <i class="bi bi-pencil term-icon"></i>
+                                </a>
+                                <a href="@Url.Action("Delete", "Term", new { id = TermWithCourses.Term.Id })" class="delete-term text-decoration-none text-danger me-2">
+                                    <i class="bi bi-trash term-icon"></i>
+                                </a>
+                                <i class="bi bi-caret-down-fill term-caret ms-2"></i>
+                            </div>
                         </div>
-                        <div class="term-controls">
-                            <!-- wrapper for buttons and caret -->
-                            <a href="@Url.Action("Upsert", "Term", new { id = TermWithCourses.Term.Id })" class="edit-term text-decoration-none me-2">
-                                <i class="bi bi-pencil term-icon"></i>
-                            </a>
-                            <a href="@Url.Action("Delete", "Term", new { id = TermWithCourses.Term.Id })" class="delete-term text-decoration-none text-danger me-2">
-                                <i class="bi bi-trash term-icon"></i>
-                            </a>
-                            <i class="bi bi-caret-down-fill term-caret ms-2"></i> <!-- Moved the caret icon here -->
-                        </div>
-                    </div>
 
-                    <div class="collapse mt-2" id="termCourses-@TermWithCourses.Term.Id">
-                        <ul class="list-group">
-                            @if (TermWithCourses.Courses.Any())
-                            {
-                                @foreach (var course in TermWithCourses.Courses)
+                        <div class="collapse mt-2" id="termCourses-@TermWithCourses.Term.Id">
+                            <ul class="list-group">
+                                @if (TermWithCourses.Courses.Any())
                                 {
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <!-- Course name as a clickable link to the Course Detail page -->
-                                            <a class="course-name "href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
-                                                <strong>@course.Name</strong>
-                                            - @course.Status - @course.StartDate.ToShortDateString()-@course.EndDate.ToShortDateString()
-                                        </div>
-                                        <div>
-                                            <!-- Edit and Delete Icons for Course -->
-                                            <a href="@Url.Action("Upsert", "Course", new { id = course.Id })" class="text-decoration-none me-2">
-                                                <i class="bi bi-pencil course-icon"></i>
-                                            </a>
-                                            <a href="@Url.Action("Delete", "Course", new { id = course.Id })" class="text-decoration-none text-danger">
-                                                <i class="bi bi-trash course-icon"></i>
-                                            </a>
-                                        </div>
-                                    </li>
+                                    @foreach (var course in TermWithCourses.Courses)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <!-- Course name as a clickable link to the Course Detail page -->
+                                                <a class="course-name" href="@Url.Action("Detail", "Course", new { id = course.Id })" class="course-link">
+                                                    <strong>@course.Name</strong>
+                                                </a>
+                                                - @course.Status - @course.StartDate.ToShortDateString() - @course.EndDate.ToShortDateString()
+                                            </div>
+                                            <div>
+                                                <!-- Edit and Delete Icons for Course -->
+                                                <a href="@Url.Action("Upsert", "Course", new { id = course.Id })" class="text-decoration-none me-2">
+                                                    <i class="bi bi-pencil course-icon"></i>
+                                                </a>
+                                                <a href="@Url.Action("Delete", "Course", new { id = course.Id })" class="text-decoration-none text-danger">
+                                                    <i class="bi bi-trash course-icon"></i>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <li class="list-group-item text-muted">No courses in this term.</li>
-                            }
-                        </ul>
+                                else
+                                {
+                                    <li class="list-group-item text-muted">No courses in this term.</li>
+                                }
+                            </ul>
+                        </div>
                     </div>
+                    <hr />
+                }
+            }
+            else
+            {
+                <!-- Display this message if there are no terms or courses -->
+                <div>
+                    <h4>No terms added yet!</h4>
+                    <p>Start planning your degree journey by adding a term. Once you've added a term, you can start organizing your courses to match your goals.</p>
                 </div>
-                <hr />
             }
         </div>
-
     </div>
 
     <!-- Right column: Planning actions -->
@@ -86,14 +94,14 @@
             <a href="@Url.Action("Upsert", "Term", null)" class="btn btn-primary mb-2">Add Term</a>
             <a href="@Url.Action("Upsert", "Course", null)" class="btn btn-primary mb-2">Add Course</a>
         </div>
-        <!-- Expand and Collaspe all buttons -->
+        <!-- Expand and Collapse all buttons -->
         <div class="mb-3">
             <button id="expandAll" class="btn btn-info btn-sm">Expand All</button>
             <button id="collapseAll" class="btn btn-dark btn-sm">Collapse All</button>
         </div>
-
     </div>
 </div>
+
 
 <!-- Modal for displaying course details -->
 <div id="courseDetailsModal" class="modal" tabindex="-1" role="dialog">
