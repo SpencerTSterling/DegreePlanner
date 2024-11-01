@@ -26,8 +26,8 @@ namespace capstone.DegreePlanner.DataAccess.Data
             // Define a GUID for the seeded user
             string userId = Guid.NewGuid().ToString();
             // Seed User data
-            modelBuilder.Entity<IdentityUser>().HasData(
-                new IdentityUser
+            modelBuilder.Entity<User>().HasData(
+                new User
                 {
                     Id = userId,
                     UserName = "studenttester1@gmail.com",
@@ -37,6 +37,8 @@ namespace capstone.DegreePlanner.DataAccess.Data
                     EmailConfirmed = true,
                     PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "TestPassword123!"), // Seed with hashed password
                     SecurityStamp = Guid.NewGuid().ToString("D"),
+                    FirstName = "Student", // Add required properties
+                    LastName = "Tester"
                 }
             );
 
