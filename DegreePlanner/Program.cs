@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-// Configure DB Context and EntityFrameworkCore
+
 // Configure DB Context and EntityFrameworkCore with retry on failure
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
