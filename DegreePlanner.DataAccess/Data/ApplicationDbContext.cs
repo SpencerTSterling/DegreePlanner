@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace capstone.DegreePlanner.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -23,8 +23,9 @@ namespace capstone.DegreePlanner.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //// Create default user
-            string userId = "1"; // ID
+            // Define a GUID for the seeded user
+            string userId = Guid.NewGuid().ToString();
+            // Seed User data
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
@@ -33,27 +34,27 @@ namespace capstone.DegreePlanner.DataAccess.Data
                     NormalizedUserName = "STUDENTTESTER1@GMAIL.COM",
                     Email = "studenttester1@gmail.com",
                     NormalizedEmail = "STUDENTTESTER1@GMAIL.COM",
-                    EmailConfirmed = false,
-                    PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
-                    SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
-                    FirstName = "",
-                    LastName = ""
+                    EmailConfirmed = true,
+                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "TestPassword123!"), // Seed with hashed password
+                    SecurityStamp = Guid.NewGuid().ToString("D"),
+                    FirstName = "Student", // Add required properties
+                    LastName = "Tester"
+                }
+            );
+
+            // Seed Term data with FK relationship to the User
+            modelBuilder.Entity<Term>().HasData(
+                new Term
+                {
+                    Id = 1,
+                    Name = "Term 1",
+                    StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
+                    EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
+                    UserId = userId // FK to the seeded user
                 }
             );
 
 
-            // Create this default Term
-            modelBuilder.Entity<Term>().HasData(
-                new Term
-                    {
-                        Id = 1,
-                        Name = "Term 1",
-                        StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
-                        EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
-
-                        UserId = userId
-                }
-                );
         }
 
 
