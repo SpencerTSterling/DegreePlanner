@@ -56,6 +56,22 @@ namespace DegreePlanner.DataAccess.Migrations
                 oldType: "nvarchar(max)",
                 oldNullable: true);
 
+            // Add UserId column to Terms table if it hasn't been added yet
+            migrationBuilder.AddColumn<string>(
+                name: "UserId",
+                table: "Terms",
+                type: "nvarchar(450)", // Adjust to your UserId column type
+                nullable: true);
+
+            // Add foreign key constraint for UserId
+            migrationBuilder.AddForeignKey(
+                name: "FK_Terms_AspNetUsers_UserId",
+                table: "Terms",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Major", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
