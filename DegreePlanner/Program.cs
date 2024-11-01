@@ -13,9 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Configure DB Context and EntityFrameworkCore
-builder.Services.AddDbContext<ApplicationDbContext>(options=> 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+// Configure DB Context and EntityFrameworkCore with retry on failure
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5, // Number of retries (default is 6)
+            maxRetryDelay: TimeSpan.FromSeconds(10), // Delay between retries
+            errorNumbersToAdd: null) // SQL error numbers to retry (null retries on all transient errors)
+        ));
 
 // Add Identity / Roles 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
