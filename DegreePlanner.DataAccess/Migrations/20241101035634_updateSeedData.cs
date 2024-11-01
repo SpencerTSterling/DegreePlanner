@@ -11,9 +11,20 @@ namespace DegreePlanner.DataAccess.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            // Do not drop Discriminator 
+            //migrationBuilder.DropColumn(
+            //    name: "Discriminator",
+            //    table: "AspNetUsers");
+
+            // Ensure the Discriminator column is present
+            migrationBuilder.AddColumn<string>(
                 name: "Discriminator",
-                table: "AspNetUsers");
+                table: "AspNetUsers",
+                type: "nvarchar(13)",
+                maxLength: 13,
+                nullable: false,
+                defaultValue: "User"); // or appropriate default value
+
 
             migrationBuilder.AlterColumn<string>(
                 name: "Major",
