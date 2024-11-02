@@ -23,34 +23,40 @@ namespace capstone.DegreePlanner.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Define a GUID for the seeded user
-            string userId = Guid.NewGuid().ToString();
-            // Seed User data
+            //// Create default user
+            Guid userId = Guid.NewGuid(); // Generate a new GUID
+            
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = userId,
+                    Id = userId.ToString(), // Use the GUID as a string for the Id
                     UserName = "studenttester1@gmail.com",
                     NormalizedUserName = "STUDENTTESTER1@GMAIL.COM",
                     Email = "studenttester1@gmail.com",
                     NormalizedEmail = "STUDENTTESTER1@GMAIL.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "TestPassword123!"), // Seed with hashed password
-                    SecurityStamp = Guid.NewGuid().ToString("D"),
-                    FirstName = "Student", // Add required properties
-                    LastName = "Tester"
+
+                    EmailConfirmed = false,
+                    PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
+                    SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
+                    FirstName = "",
+                    LastName = "",
+                    Major = ""
+
                 }
             );
 
             // Seed Term data with FK relationship to the User
             modelBuilder.Entity<Term>().HasData(
                 new Term
-                {
-                    Id = 1,
-                    Name = "Term 1",
-                    StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
-                    EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
-                    UserId = userId // FK to the seeded user
+
+                    {
+                        Id = 1,
+                        Name = "Term 1",
+                        StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
+                        EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
+
+                        UserId = userId.ToString() // Assign the GUID to UserId
+
                 }
             );
 

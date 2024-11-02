@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DegreePlanner.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class intialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -233,12 +233,12 @@ namespace DegreePlanner.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "Major", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "36079aac-26e7-4300-9bc9-c49c928bb3ae", "User", "studenttester1@gmail.com", false, "", "", false, null, "Undecided", "STUDENTTESTER1@GMAIL.COM", "STUDENTTESTER1@GMAIL.COM", "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==", null, false, "CULID4DV2H7E6SHABGQOE27Y7JCATJLE", false, "studenttester1@gmail.com" });
+                values: new object[] { "36591882-bad4-4697-a479-7cc10d051f8b", 0, "d7da1324-e9ed-45c0-b568-d2cf017bcb6f", "User", "studenttester1@gmail.com", false, "", "", false, null, "", "STUDENTTESTER1@GMAIL.COM", "STUDENTTESTER1@GMAIL.COM", "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==", null, false, "CULID4DV2H7E6SHABGQOE27Y7JCATJLE", false, "studenttester1@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "Terms",
                 columns: new[] { "Id", "EndDate", "Name", "StartDate", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Term 1", new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1" });
+                values: new object[] { 1, new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "Term 1", new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "36591882-bad4-4697-a479-7cc10d051f8b" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
