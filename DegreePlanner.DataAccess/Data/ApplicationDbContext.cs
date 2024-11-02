@@ -24,11 +24,11 @@ namespace capstone.DegreePlanner.DataAccess.Data
             base.OnModelCreating(modelBuilder);
 
             //// Create default user
-            string userId = "1"; // ID
+            Guid userId = Guid.NewGuid(); // Generate a new GUID
             modelBuilder.Entity<User>().HasData(
-                new User
+                new IdentityUser
                 {
-                    Id = userId,
+                    Id = userId.ToString(), // Use the GUID as a string for the Id
                     UserName = "studenttester1@gmail.com",
                     NormalizedUserName = "STUDENTTESTER1@GMAIL.COM",
                     Email = "studenttester1@gmail.com",
@@ -36,8 +36,6 @@ namespace capstone.DegreePlanner.DataAccess.Data
                     EmailConfirmed = false,
                     PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
                     SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
-                    FirstName = "",
-                    LastName = ""
                 }
             );
 
@@ -51,7 +49,7 @@ namespace capstone.DegreePlanner.DataAccess.Data
                         StartDate = new DateTime(2024, 9, 1), // Sept 1, 2024
                         EndDate = new DateTime(2024, 12, 31), // Dec 31, 2024
 
-                        UserId = userId
+                        UserId = userId.ToString() // Assign the GUID to UserId
                 }
                 );
         }
