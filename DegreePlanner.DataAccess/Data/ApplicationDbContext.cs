@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace capstone.DegreePlanner.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
