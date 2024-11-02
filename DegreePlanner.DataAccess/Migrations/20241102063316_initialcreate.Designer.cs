@@ -12,8 +12,8 @@ using capstone.DegreePlanner.DataAccess.Data;
 namespace DegreePlanner.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240809030148_ExtendIdentityUser")]
-    partial class ExtendIdentityUser
+    [Migration("20241102063316_initialcreate")]
+    partial class initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,7 +116,13 @@ namespace DegreePlanner.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Terms");
 
@@ -126,7 +132,8 @@ namespace DegreePlanner.DataAccess.Migrations
                             Id = 1,
                             EndDate = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Term 1",
-                            StartDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "1"
                         });
                 });
 
@@ -284,12 +291,10 @@ namespace DegreePlanner.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -326,12 +331,10 @@ namespace DegreePlanner.DataAccess.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -358,6 +361,27 @@ namespace DegreePlanner.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "36079aac-26e7-4300-9bc9-c49c928bb3ae",
+                            Email = "studenttester1@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "STUDENTTESTER1@GMAIL.COM",
+                            NormalizedUserName = "STUDENTTESTER1@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
+                            TwoFactorEnabled = false,
+                            UserName = "studenttester1@gmail.com",
+                            FirstName = "",
+                            LastName = "",
+                            Major = "Undecided"
+                        });
                 });
 
             modelBuilder.Entity("DegreePlanner.Models.Course", b =>
@@ -380,6 +404,17 @@ namespace DegreePlanner.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("DegreePlanner.Models.Term", b =>
+                {
+                    b.HasOne("DegreePlanner.Models.User", "User")
+                        .WithMany("Terms")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -441,6 +476,11 @@ namespace DegreePlanner.DataAccess.Migrations
             modelBuilder.Entity("DegreePlanner.Models.Term", b =>
                 {
                     b.Navigation("Courses");
+                });
+
+            modelBuilder.Entity("DegreePlanner.Models.User", b =>
+                {
+                    b.Navigation("Terms");
                 });
 #pragma warning restore 612, 618
         }
