@@ -26,7 +26,7 @@ namespace capstone.DegreePlanner.DataAccess.Data
             //// Create default user
             Guid userId = Guid.NewGuid(); // Generate a new GUID
             modelBuilder.Entity<User>().HasData(
-                new IdentityUser
+                new User
                 {
                     Id = userId.ToString(), // Use the GUID as a string for the Id
                     UserName = "studenttester1@gmail.com",
@@ -36,6 +36,9 @@ namespace capstone.DegreePlanner.DataAccess.Data
                     EmailConfirmed = false,
                     PasswordHash = "AQAAAAIAAYagAAAAEE8qTehN67DNoAM/JbRrzB62HT9mvPxZCyXdMmfeSwavCnwaULe/hFmDVRWNSzBZIg==",
                     SecurityStamp = "CULID4DV2H7E6SHABGQOE27Y7JCATJLE",
+                    FirstName = "",
+                    LastName = "",
+                    Major = ""
                 }
             );
 

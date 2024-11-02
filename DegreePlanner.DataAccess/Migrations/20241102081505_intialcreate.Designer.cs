@@ -12,8 +12,8 @@ using capstone.DegreePlanner.DataAccess.Data;
 namespace DegreePlanner.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241102063316_initialcreate")]
-    partial class initialcreate
+    [Migration("20241102081505_intialcreate")]
+    partial class intialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,7 +133,7 @@ namespace DegreePlanner.DataAccess.Migrations
                             EndDate = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Term 1",
                             StartDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = "1"
+                            UserId = "36591882-bad4-4697-a479-7cc10d051f8b"
                         });
                 });
 
@@ -365,9 +365,9 @@ namespace DegreePlanner.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = "36591882-bad4-4697-a479-7cc10d051f8b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36079aac-26e7-4300-9bc9-c49c928bb3ae",
+                            ConcurrencyStamp = "d7da1324-e9ed-45c0-b568-d2cf017bcb6f",
                             Email = "studenttester1@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -380,7 +380,7 @@ namespace DegreePlanner.DataAccess.Migrations
                             UserName = "studenttester1@gmail.com",
                             FirstName = "",
                             LastName = "",
-                            Major = "Undecided"
+                            Major = ""
                         });
                 });
 
