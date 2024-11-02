@@ -12,8 +12,8 @@ using capstone.DegreePlanner.DataAccess.Data;
 namespace DegreePlanner.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240820020922_FKUserIdInTerms")]
-    partial class FKUserIdInTerms
+    [Migration("20241102063316_initialcreate")]
+    partial class initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -367,7 +367,7 @@ namespace DegreePlanner.DataAccess.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69434944-f5a2-473d-8803-eeabe137d413",
+                            ConcurrencyStamp = "36079aac-26e7-4300-9bc9-c49c928bb3ae",
                             Email = "studenttester1@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,

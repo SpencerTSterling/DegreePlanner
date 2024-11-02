@@ -364,7 +364,7 @@ namespace DegreePlanner.DataAccess.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "076fe093-d5a5-45cb-ac91-4651e7ac6909",
+                            ConcurrencyStamp = "36079aac-26e7-4300-9bc9-c49c928bb3ae",
                             Email = "studenttester1@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
