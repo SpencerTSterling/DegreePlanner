@@ -1,4 +1,5 @@
 # DegreePlanner #
+
 [The live site status: STOPPED](https://degreeplanner-gye5a8fwhhcefacr.westus-01.azurewebsites.net/)
 
 
@@ -48,6 +49,11 @@ DegreePlanner/
  
 - **User Authentication**:  
   - Secure login system using ASP.NET Identity.
+ 
+## Installation and User Guide
+
+For detailed installation instructions, see [docs/InstallationGuide.md](./docs/InstallationGuide.md).
+
 
 ## Acknowledgments
 This project was built with these tools and frameworks: 
