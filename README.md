@@ -1,6 +1,11 @@
 # DegreePlanner #
 [The live site status: STOPPED](https://degreeplanner-gye5a8fwhhcefacr.westus-01.azurewebsites.net/)
 
+
+![image](https://github.com/user-attachments/assets/e21aeb3b-0f45-4b07-a823-a6827f8f37dd)
+
+
+
 ### Current Status
 DegreePlanner is no longer actively maintained, and the live site has been sunset. The repository remains a showcase of the project's architecture, implementation, and functionality.
 
@@ -9,6 +14,10 @@ DegreePlanner was designed as an academic planning tool to help students visuall
 - **Terms**: Represent semesters, quarters, programs, or academic periods.  
 - **Courses**: Represent a subject, class, or course within a term.   
 - **Course Item**: Represent a task within a course, such as assignments, assessments, or to-do items.
+
+
+![image](https://github.com/user-attachments/assets/4f49493a-f5f4-4ac8-b5ce-5c93b397427b)
+
 
 ## Project Structure  
 ```plaintext
