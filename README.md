@@ -2,6 +2,7 @@
 
 [The live site status: STOPPED](https://degreeplanner-gye5a8fwhhcefacr.westus-01.azurewebsites.net/)
 
+Watch a demonstration on YouTube [here.](https://youtu.be/7fRDmt4Kuzs)
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e21aeb3b-0f45-4b07-a823-a6827f8f37dd" />
