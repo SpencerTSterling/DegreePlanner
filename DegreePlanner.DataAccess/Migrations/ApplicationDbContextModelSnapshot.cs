@@ -130,7 +130,8 @@ namespace DegreePlanner.DataAccess.Migrations
                             EndDate = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Term 1",
                             StartDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = "be528a40-3c21-49d6-b1c9-b3e062634e6a"
+                            UserId = "36591882-bad4-4697-a479-7cc10d051f8b"
+
                         });
                 });
 
@@ -445,9 +446,11 @@ namespace DegreePlanner.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be528a40-3c21-49d6-b1c9-b3e062634e6a",
+
+                            Id = "36591882-bad4-4697-a479-7cc10d051f8b",
+
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "36079aac-26e7-4300-9bc9-c49c928bb3ae",
+                            ConcurrencyStamp = "d7da1324-e9ed-45c0-b568-d2cf017bcb6f",
                             Email = "studenttester1@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Student",
@@ -460,7 +463,12 @@ namespace DegreePlanner.DataAccess.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "24ea7772-1b86-46d8-94fd-d2ad4bd54de2",
                             TwoFactorEnabled = false,
-                            UserName = "studenttester1@gmail.com"
+
+                            UserName = "studenttester1@gmail.com",
+                            FirstName = "",
+                            LastName = "",
+                            Major = ""
+
                         });
                 });
 
